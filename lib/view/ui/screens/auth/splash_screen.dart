@@ -2,9 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:my_teeth/utils/utils.dart';
 import '../../../../constants/app_icons.dart';
+import 'login_screen.dart';
 
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _navigateToLoginScreen();
+  }
+
+  void _navigateToLoginScreen() async {
+    await Future.delayed(const Duration(milliseconds: 2600));
+    if (context.mounted) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const LoginScreen(),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,24 +40,27 @@ class SplashScreen extends StatelessWidget {
       navigationBarColorInDark: Theme.of(context).colorScheme.surface,
     );
     return Scaffold(
-      body: Center(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SvgPicture.asset(
-            AppIcons.appIcon,
-            width: 100,
-            height: 100,
-            fit: BoxFit.contain,
-          ),
-          const SizedBox(height: 26),
-          Text('أسناني',
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 22,
-                  color: Theme.of(context).colorScheme.primary)),
-        ],
-      )),
+      body: Container(
+        color: Theme.of(context).colorScheme.surface,
+        child: Center(
+            child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              AppIcons.appIcon,
+              width: 100,
+              height: 100,
+              fit: BoxFit.contain,
+            ),
+            const SizedBox(height: 26),
+            Text('أسناني',
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22,
+                    color: Theme.of(context).colorScheme.primary)),
+          ],
+        )),
+      ),
     );
   }
 }
