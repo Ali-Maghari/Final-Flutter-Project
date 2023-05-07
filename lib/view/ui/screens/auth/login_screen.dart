@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:my_teeth/constants/app_icons.dart';
+import 'package:my_teeth/constants/constants.dart';
 import 'package:my_teeth/utils/utils.dart';
 import 'package:my_teeth/view/ui/screens/auth/register_screen.dart';
 import 'package:my_teeth/view/ui/widgets/material_filled_button.dart';
 import 'package:my_teeth/view/ui/widgets/material_input.dart';
 import 'package:provider/provider.dart';
+import '../../../../constants/strings.dart';
 import '../../../../state/state_manager.dart';
 import '../../widgets/material_text_button.dart';
 
@@ -37,24 +38,24 @@ class LoginScreen extends StatelessWidget {
                   fit: BoxFit.contain,
                 ),
                 const SizedBox(height: 60),
-                Text("Welcome back !",
+                Text(Strings.welcomeBack,
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 22,
                         color: Theme.of(context).colorScheme.primary)),
                 const SizedBox(height: 16),
-                Text("Sign in to continue",
+                Text(Strings.signInToContinue,
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                         color: Theme.of(context).colorScheme.primary)),
                 const SizedBox(height: 36),
-                MaterialInput(const Text("Email"),
+                MaterialInput(const Text(Strings.email),
                     prefixIcon: Icon(Icons.email,
                         color: Theme.of(context).colorScheme.primary)),
                 const SizedBox(height: Margins.inputsMarginWhenErrorNotEnabled),
                 MaterialInput(
-                  const Text("Password"),
+                  const Text(Strings.password),
                   isObscureText: Provider.of<StateManager>(context)
                       .passwordInLoginObscureTextState,
                   prefixIcon: Icon(Icons.lock,
@@ -77,14 +78,14 @@ class LoginScreen extends StatelessWidget {
                   alignment: WrapAlignment.start,
                   children: [
                     MaterialTextButton(
-                        child: const Text('Forgot password?',
+                        child: const Text(Strings.forgotPassword,
                             style: TextStyle(fontSize: 12)),
                         onPressed: () {}),
                   ],
                 ),
                 const SizedBox(height: 20),
                 MaterialFilledButton(
-                    child: const Text('Sign in',
+                    child: const Text(Strings.signIn,
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.bold)),
                     onPressed: () {}),
@@ -93,7 +94,7 @@ class LoginScreen extends StatelessWidget {
                   alignment: WrapAlignment.center,
                   children: [
                     MaterialTextButton(
-                        child: const Text('Don\'t have an account? Sign up',
+                        child: const Text(Strings.notHaveAnAccount,
                             style: TextStyle(fontSize: 12)),
                         onPressed: () {
                           Navigator.push(

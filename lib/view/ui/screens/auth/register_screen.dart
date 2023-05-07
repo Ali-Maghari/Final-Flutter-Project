@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
-import 'package:my_teeth/constants/app_icons.dart';
+import 'package:my_teeth/constants/constants.dart';
 import 'package:my_teeth/utils/utils.dart';
 import 'package:my_teeth/view/ui/widgets/material_filled_button.dart';
 import 'package:my_teeth/view/ui/widgets/material_input.dart';
 import 'package:provider/provider.dart';
+import '../../../../constants/strings.dart';
 import '../../../../state/state_manager.dart';
 import '../../widgets/material_text_button.dart';
 
@@ -39,28 +40,28 @@ class RegisterScreen extends StatelessWidget {
                   fit: BoxFit.contain,
                 ),
                 const SizedBox(height: 60),
-                Text("Welcome",
+                Text(Strings.welcome,
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 22,
                         color: Theme.of(context).colorScheme.primary)),
                 const SizedBox(height: 16),
-                Text("Create an account to continue",
+                Text(Strings.createAnAccountToContinue,
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                         color: Theme.of(context).colorScheme.primary)),
                 const SizedBox(height: 36),
-                MaterialInput(const Text("Name"),
+                MaterialInput(const Text(Strings.name),
                     prefixIcon: Icon(Icons.person,
                         color: Theme.of(context).colorScheme.primary)),
                 const SizedBox(height: Margins.inputsMarginWhenErrorNotEnabled),
-                MaterialInput(const Text("Email"),
+                MaterialInput(const Text(Strings.email),
                     prefixIcon: Icon(Icons.email,
                         color: Theme.of(context).colorScheme.primary)),
                 const SizedBox(height: Margins.inputsMarginWhenErrorNotEnabled),
                 MaterialInput(
-                  const Text("Password"),
+                  const Text(Strings.password),
                   isObscureText: Provider.of<StateManager>(context)
                       .passwordInLoginObscureTextState,
                   prefixIcon: Icon(Icons.lock,
@@ -81,7 +82,7 @@ class RegisterScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: Margins.inputsMarginWhenErrorNotEnabled),
                 MaterialInput(
-                  const Text("Birthdate"),
+                  const Text(Strings.birthdate),
                   controller: _birthdateController,
                   isObscureText: Provider.of<StateManager>(context)
                       .passwordInLoginObscureTextState,
@@ -97,7 +98,7 @@ class RegisterScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 40),
                 MaterialFilledButton(
-                    child: const Text('Sign up',
+                    child: const Text(Strings.signUp,
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.bold)),
                     onPressed: () {}),
@@ -106,7 +107,7 @@ class RegisterScreen extends StatelessWidget {
                   alignment: WrapAlignment.center,
                   children: [
                     MaterialTextButton(
-                        child: const Text('Don\'t have an account? Sign up',
+                        child: const Text(Strings.alreadyHaveAnAccount,
                             style: TextStyle(fontSize: 12)),
                         onPressed: () {}),
                   ],

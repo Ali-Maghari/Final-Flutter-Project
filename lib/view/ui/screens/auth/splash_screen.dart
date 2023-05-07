@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:my_teeth/utils/utils.dart';
-import '../../../../constants/app_icons.dart';
+import 'package:my_teeth/view/ui/screens/auth/intro_screen.dart';
+import '../../../../constants/constants.dart';
+import '../../../../constants/strings.dart';
 import 'login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -24,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => const LoginScreen(),
+          builder: (context) => IntroScreen(),
         ),
       );
     }
@@ -53,7 +55,7 @@ class _SplashScreenState extends State<SplashScreen> {
               fit: BoxFit.contain,
             ),
             const SizedBox(height: 26),
-            Text('أسناني',
+            Text(Strings.appName,
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 22,
