@@ -8,7 +8,9 @@ import 'package:my_teeth/view/ui/widgets/material_input.dart';
 import 'package:provider/provider.dart';
 import '../../../../constants/strings.dart';
 import '../../../../state/state_manager.dart';
+import '../../../../utils/shared_utils.dart';
 import '../../widgets/material_text_button.dart';
+import '../user/home_screen.dart';
 
 class RegisterScreen extends StatelessWidget {
   RegisterScreen({super.key});
@@ -101,7 +103,15 @@ class RegisterScreen extends StatelessWidget {
                     child: const Text(Strings.signUp,
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.bold)),
-                    onPressed: () {}),
+                    onPressed: () {
+                      // clear all previous stack and push home screen
+                      SharedUtils.getSharedUtils()
+                          .setBool(SharedPreferencesKeys.isUserLoggedIn, true);
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                              builder: (context) => const HomeScreen()),
+                          (route) => false);
+                    }),
                 const SizedBox(height: 6),
                 Wrap(
                   alignment: WrapAlignment.center,
@@ -109,7 +119,9 @@ class RegisterScreen extends StatelessWidget {
                     MaterialTextButton(
                         child: const Text(Strings.alreadyHaveAnAccount,
                             style: TextStyle(fontSize: 12)),
-                        onPressed: () {}),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        }),
                   ],
                 ),
                 const SizedBox(height: 20),

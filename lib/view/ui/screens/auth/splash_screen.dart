@@ -5,6 +5,7 @@ import 'package:my_teeth/utils/utils.dart';
 import 'package:my_teeth/view/ui/screens/auth/intro_screen.dart';
 import '../../../../constants/constants.dart';
 import '../../../../constants/strings.dart';
+import '../user/home_screen.dart';
 import 'login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -24,14 +25,21 @@ class _SplashScreenState extends State<SplashScreen> {
   void _navigateToLoginScreen() async {
     await Future.delayed(const Duration(milliseconds: 2600));
     if (context.mounted) {
+      Widget redirectWidget;
+      if (SharedUtils.getSharedUtils()
+              .getBool(SharedPreferencesKeys.isFirstTimeToOpen) ??
+          true) {
+        redirectWidget = IntroScreen();
+      } else if (SharedUtils.getSharedUtils()
+              .getBool(SharedPreferencesKeys.isUserLoggedIn) ??
+          false) {
+        redirectWidget = const HomeScreen();
+      } else {
+        redirectWidget = const LoginScreen();
+      }
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(
-            builder: (context) => SharedUtils.getSharedPreferences()
-                        .getBool(SharedPreferencesKeys.isFirstTimeToOpen) ??
-                    true
-                ? IntroScreen()
-                : const LoginScreen()),
+        MaterialPageRoute(builder: (context) => redirectWidget),
       );
     }
   }

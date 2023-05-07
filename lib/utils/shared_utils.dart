@@ -9,7 +9,7 @@ class SharedUtils {
     _sharedPreferences = await SharedPreferences.getInstance();
   }
 
-  static SharedPreferences getSharedPreferences() {
+  static SharedPreferences getSharedUtils() {
     return _sharedPreferences;
   }
 }

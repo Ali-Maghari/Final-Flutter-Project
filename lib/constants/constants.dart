@@ -15,4 +15,10 @@ class IntroImages {
 
 class SharedPreferencesKeys {
   static const isFirstTimeToOpen = "isFirstTimeToOpen";
+  static const isUserLoggedIn = "isUserLoggedIn";
+}
+
+class Animations {
+  static const _basePath = "assets/animations/";
+  static const welcome = "${_basePath}welcome.json";
 }

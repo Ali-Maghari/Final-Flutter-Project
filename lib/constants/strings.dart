@@ -23,5 +23,8 @@ class Strings {
   static const String birthdate = "Birthdate";
   static const String signUp = "Sign up";
   static const String alreadyHaveAnAccount = "Already have an account? Sign in";
+  static const String home = "Home";
+  static const String notifications = "Notifications";
+  static const String settings = "Settings";
 
 }

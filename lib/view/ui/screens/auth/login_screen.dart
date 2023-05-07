@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:my_teeth/constants/constants.dart';
+import 'package:my_teeth/utils/shared_utils.dart';
 import 'package:my_teeth/utils/utils.dart';
 import 'package:my_teeth/view/ui/screens/auth/register_screen.dart';
 import 'package:my_teeth/view/ui/widgets/material_filled_button.dart';
@@ -9,6 +10,7 @@ import 'package:provider/provider.dart';
 import '../../../../constants/strings.dart';
 import '../../../../state/state_manager.dart';
 import '../../widgets/material_text_button.dart';
+import '../user/home_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -88,7 +90,11 @@ class LoginScreen extends StatelessWidget {
                     child: const Text(Strings.signIn,
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.bold)),
-                    onPressed: () {}),
+                    onPressed: () {
+                      SharedUtils.getSharedUtils().setBool(SharedPreferencesKeys.isUserLoggedIn, true);
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => const HomeScreen()));
+                    }),
                 const SizedBox(height: 6),
                 Wrap(
                   alignment: WrapAlignment.center,
