@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:my_teeth/utils/shared_utils.dart';
 import 'package:my_teeth/utils/utils.dart';
 import 'package:my_teeth/view/ui/screens/auth/intro_screen.dart';
 import '../../../../constants/constants.dart';
@@ -26,8 +27,11 @@ class _SplashScreenState extends State<SplashScreen> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => IntroScreen(),
-        ),
+            builder: (context) => SharedUtils.getSharedPreferences()
+                        .getBool(SharedPreferencesKeys.isFirstTimeToOpen) ??
+                    true
+                ? IntroScreen()
+                : const LoginScreen()),
       );
     }
   }

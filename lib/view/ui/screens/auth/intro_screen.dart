@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_teeth/state/state_manager.dart';
+import 'package:my_teeth/utils/shared_utils.dart';
 import 'package:my_teeth/view/ui/widgets/intro_item.dart';
 import 'package:my_teeth/view/ui/widgets/material_filled_button.dart';
 import 'package:my_teeth/view/ui/widgets/material_text_button.dart';
@@ -10,6 +11,7 @@ import '../../../../model/intro.dart';
 import '../../../../utils/utils.dart';
 import '../../widgets/intro_dot.dart';
 import '../../widgets/material_outlined_button.dart';
+import 'login_screen.dart';
 
 class IntroScreen extends StatelessWidget {
   final pageController = PageController();
@@ -60,7 +62,9 @@ class IntroScreen extends StatelessWidget {
                     Icon(Icons.arrow_forward_ios_rounded, size: 12),
                   ],
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  _goToLoginScreen(context);
+                },
               ),
             ),
             const SizedBox(height: 10),
@@ -112,11 +116,21 @@ class IntroScreen extends StatelessWidget {
                     : MaterialFilledButton(
                         child: const Text(Strings.getStarted,
                             style: TextStyle(fontWeight: FontWeight.bold)),
-                        onPressed: () {},
+                        onPressed: () {
+                          _goToLoginScreen(context);
+                        },
                       )),
           ],
         ),
       ),
     );
+  }
+
+  void _goToLoginScreen(BuildContext context) {
+    SharedUtils.getSharedPreferences()
+        .setBool(SharedPreferencesKeys.isFirstTimeToOpen, false);
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+      builder: (context) => const LoginScreen(),
+    ));
   }
 }
