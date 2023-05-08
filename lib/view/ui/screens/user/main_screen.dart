@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:lottie/lottie.dart';
 import 'package:my_teeth/constants/constants.dart';
 import 'package:my_teeth/state/state_manager.dart';
+import 'package:my_teeth/view/ui/screens/user/add_or_edit_reminder.dart';
 import 'package:my_teeth/view/ui/screens/user/home_screen.dart';
 import 'package:my_teeth/view/ui/screens/user/profile_screen.dart';
 import 'package:my_teeth/view/ui/screens/user/settings_screen.dart';
@@ -128,7 +129,11 @@ class MainScreen extends StatelessWidget {
                       .isFloatingActionButtonExtended,
                   tooltip: Strings.addCleaningReminder,
                   icon: const Icon(Icons.add),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => AddOrEditReminder()));
+                  },
                   label: const Text(Strings.addCleaningReminder))
               : const SizedBox(),
     );

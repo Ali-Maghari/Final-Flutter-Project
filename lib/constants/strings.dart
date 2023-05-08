@@ -34,5 +34,10 @@ class Strings {
   static const String rewards = "Rewards";
   static const String profile = "Profile";
   static const String editProfile = "Edit Profile";
+  static const String addReminder = "Add Reminder";
+  static const String title = "Title";
+  static const String description = "Description";
+  static const String reminderTime = "Reminder Time";
+  static const String reminderAddedSuccessfully = "Reminder added successfully";
 
 }
