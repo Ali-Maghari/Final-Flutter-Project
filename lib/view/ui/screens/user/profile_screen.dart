@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
-import 'package:my_teeth/constants/constants.dart';
-import 'package:my_teeth/utils/utils.dart';
-import 'package:my_teeth/view/ui/widgets/material_filled_button.dart';
-import 'package:my_teeth/view/ui/widgets/material_input.dart';
 import 'package:provider/provider.dart';
+import '../../../../constants/constants.dart';
 import '../../../../constants/strings.dart';
 import '../../../../state/state_manager.dart';
-import '../../../../utils/shared_utils.dart';
-import '../../widgets/material_text_button.dart';
-import '../user/main_screen.dart';
+import '../../../../utils/utils.dart';
+import '../../widgets/material_filled_button.dart';
+import '../../widgets/material_input.dart';
 
-class RegisterScreen extends StatelessWidget {
-  RegisterScreen({super.key});
+class ProfileScreen extends StatelessWidget {
+  ProfileScreen({super.key});
 
   final TextEditingController _birthdateController = TextEditingController();
 
@@ -27,6 +23,22 @@ class RegisterScreen extends StatelessWidget {
       navigationBarColorInDark: Theme.of(context).colorScheme.surface,
     );
     return Scaffold(
+      appBar: AppBar(
+        title: Text(Strings.profile,
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+                color: Theme.of(context).colorScheme.primary)),
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back,
+              color: Theme.of(context).colorScheme.primary),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ),
       body: Container(
           color: Theme.of(context).colorScheme.surface,
           child: Center(
@@ -35,25 +47,20 @@ class RegisterScreen extends StatelessWidget {
               shrinkWrap: true,
               children: [
                 const SizedBox(height: 20),
-                SvgPicture.asset(
-                  AppIcons.appIcon,
-                  width: 100,
-                  height: 100,
-                  fit: BoxFit.contain,
+                InkWell(
+                  onTap: () {},
+                  splashColor: Theme.of(context).colorScheme.secondary,
+                  child: CircleAvatar(
+                    radius: 50,
+                    backgroundColor: Theme.of(context).colorScheme.secondary,
+                    child: Icon(
+                      Icons.person_outline,
+                      color: Theme.of(context).colorScheme.onSecondary,
+                      size: 50,
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 60),
-                Text(Strings.welcome,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 22,
-                        color: Theme.of(context).colorScheme.primary)),
-                const SizedBox(height: 16),
-                Text(Strings.createAnAccountToContinue,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                        color: Theme.of(context).colorScheme.primary)),
-                const SizedBox(height: 36),
                 MaterialInput(const Text(Strings.name),
                     prefixIcon: Icon(Icons.person,
                         color: Theme.of(context).colorScheme.primary)),
@@ -98,30 +105,12 @@ class RegisterScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 40),
                 MaterialFilledButton(
-                    child: const Text(Strings.signUp,
+                    child: const Text(Strings.editProfile,
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.bold)),
                     onPressed: () {
-                      // clear all previous stack and push home screen
-                      SharedUtils.getSharedUtils()
-                          .setBool(SharedPreferencesKeys.isUserLoggedIn, true);
-                      Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(
-                              builder: (context) => MainScreen()),
-                          (route) => false);
+
                     }),
-                const SizedBox(height: 6),
-                Wrap(
-                  alignment: WrapAlignment.center,
-                  children: [
-                    MaterialTextButton(
-                        child: const Text(Strings.alreadyHaveAnAccount,
-                            style: TextStyle(fontSize: 12)),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        }),
-                  ],
-                ),
                 const SizedBox(height: 20),
               ],
             ),

@@ -32,5 +32,7 @@ class Strings {
   static const String theme = "Theme";
   static const String logout = "Logout";
   static const String rewards = "Rewards";
+  static const String profile = "Profile";
+  static const String editProfile = "Edit Profile";
 
 }

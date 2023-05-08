@@ -4,6 +4,7 @@ import 'package:lottie/lottie.dart';
 import 'package:my_teeth/constants/constants.dart';
 import 'package:my_teeth/state/state_manager.dart';
 import 'package:my_teeth/view/ui/screens/user/home_screen.dart';
+import 'package:my_teeth/view/ui/screens/user/profile_screen.dart';
 import 'package:my_teeth/view/ui/screens/user/settings_screen.dart';
 import 'package:provider/provider.dart';
 import '../../../../constants/strings.dart';
@@ -36,12 +37,20 @@ class MainScreen extends StatelessWidget {
             const SizedBox(height: 20),
             Row(
               children: [
-                CircleAvatar(
-                  radius: 22,
-                  backgroundColor: Theme.of(context).colorScheme.secondary,
-                  child: Icon(
-                    Icons.person_outline,
-                    color: Theme.of(context).colorScheme.onSecondary,
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ProfileScreen()),
+                    );
+                  },
+                  child: CircleAvatar(
+                    radius: 22,
+                    backgroundColor: Theme.of(context).colorScheme.secondary,
+                    child: Icon(
+                      Icons.person_outline,
+                      color: Theme.of(context).colorScheme.onSecondary,
+                    ),
                   ),
                 ),
                 const SizedBox(
@@ -75,7 +84,11 @@ class MainScreen extends StatelessWidget {
                   Provider.of<StateManager>(context, listen: false)
                       .setIsFloatingActionButtonVisible(pageIndex == 0);
                 },
-                children: [const HomeScreen(), NotificationsScreen(), const SettingsScreen()],
+                children: [
+                  const HomeScreen(),
+                  NotificationsScreen(),
+                  const SettingsScreen()
+                ],
               ),
             ),
           ],
