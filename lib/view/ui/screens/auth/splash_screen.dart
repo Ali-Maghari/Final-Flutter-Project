@@ -5,7 +5,7 @@ import 'package:my_teeth/utils/utils.dart';
 import 'package:my_teeth/view/ui/screens/auth/intro_screen.dart';
 import '../../../../constants/constants.dart';
 import '../../../../constants/strings.dart';
-import '../user/home_screen.dart';
+import '../user/main_screen.dart';
 import 'login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -33,7 +33,7 @@ class _SplashScreenState extends State<SplashScreen> {
       } else if (SharedUtils.getSharedUtils()
               .getBool(SharedPreferencesKeys.isUserLoggedIn) ??
           false) {
-        redirectWidget = const HomeScreen();
+        redirectWidget = MainScreen();
       } else {
         redirectWidget = const LoginScreen();
       }

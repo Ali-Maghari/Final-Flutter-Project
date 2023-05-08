@@ -10,7 +10,7 @@ import '../../../../constants/strings.dart';
 import '../../../../state/state_manager.dart';
 import '../../../../utils/shared_utils.dart';
 import '../../widgets/material_text_button.dart';
-import '../user/home_screen.dart';
+import '../user/main_screen.dart';
 
 class RegisterScreen extends StatelessWidget {
   RegisterScreen({super.key});
@@ -109,7 +109,7 @@ class RegisterScreen extends StatelessWidget {
                           .setBool(SharedPreferencesKeys.isUserLoggedIn, true);
                       Navigator.of(context).pushAndRemoveUntil(
                           MaterialPageRoute(
-                              builder: (context) => const HomeScreen()),
+                              builder: (context) => MainScreen()),
                           (route) => false);
                     }),
                 const SizedBox(height: 6),

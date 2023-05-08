@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 import '../../../../constants/strings.dart';
 import '../../../../state/state_manager.dart';
 import '../../widgets/material_text_button.dart';
-import '../user/home_screen.dart';
+import '../user/main_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -93,7 +93,7 @@ class LoginScreen extends StatelessWidget {
                     onPressed: () {
                       SharedUtils.getSharedUtils().setBool(SharedPreferencesKeys.isUserLoggedIn, true);
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (context) => const HomeScreen()));
+                          builder: (context) => MainScreen()));
                     }),
                 const SizedBox(height: 6),
                 Wrap(

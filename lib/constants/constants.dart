@@ -21,4 +21,11 @@ class SharedPreferencesKeys {
 class Animations {
   static const _basePath = "assets/animations/";
   static const welcome = "${_basePath}welcome.json";
+  static const sadOne = "${_basePath}sad_01.json";
+  static const sadTwo = "${_basePath}sad_02.json";
+}
+
+class NotificationTypes {
+  static const reminder = 1;
+  static const reward = 2;
 }

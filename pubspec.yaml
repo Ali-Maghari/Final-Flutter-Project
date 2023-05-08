@@ -71,6 +71,8 @@ flutter:
     - assets/svg/intro/ic_intro_two.svg
     - assets/svg/intro/ic_intro_three.svg
     - assets/animations/welcome.json
+    - assets/animations/sad_01.json
+    - assets/animations/sad_02.json
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
