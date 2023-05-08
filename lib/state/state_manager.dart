@@ -6,6 +6,8 @@ class StateManager with ChangeNotifier {
   int currentIntroPage = 0;
   String title = Strings.home;
   int currentMainPage = 0;
+  bool isFloatingActionButtonExtended = true;
+  bool isFloatingActionButtonVisible = true;
 
   void setPasswordInLoginObscureTextState(bool isObscureText) {
     passwordInLoginObscureTextState = isObscureText;
@@ -24,6 +26,16 @@ class StateManager with ChangeNotifier {
 
   void setCurrentMainPage(int page) {
     currentMainPage = page;
+    notifyListeners();
+  }
+
+  void setIsFloatingActionButtonExtended(bool isExtended) {
+    isFloatingActionButtonExtended = isExtended;
+    notifyListeners();
+  }
+
+  void setIsFloatingActionButtonVisible(bool isVisible) {
+    isFloatingActionButtonVisible = isVisible;
     notifyListeners();
   }
 

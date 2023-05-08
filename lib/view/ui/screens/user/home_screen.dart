@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-
 import '../../../../constants/constants.dart';
 import '../../../../constants/strings.dart';
 
@@ -19,15 +18,12 @@ class HomeScreen extends StatelessWidget {
           fit: BoxFit.contain,
         ),
         const SizedBox(height: 20),
-        const Text(
-          Strings.noRemindersFounded,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          )
-        ),
+        const Text(Strings.noRemindersFounded,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            )),
       ],
     );
   }
-
 }
