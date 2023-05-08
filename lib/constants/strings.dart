@@ -29,5 +29,8 @@ class Strings {
   static const String noRemindersFounded = "No reminders have been scheduled yet";
   static const String noNotificationsFounded = "No notifications have been received yet";
   static const String addCleaningReminder = "Add Reminder";
+  static const String theme = "Theme";
+  static const String logout = "Logout";
+  static const String rewards = "Rewards";
 
 }

@@ -4,6 +4,7 @@ import 'package:lottie/lottie.dart';
 import 'package:my_teeth/constants/constants.dart';
 import 'package:my_teeth/state/state_manager.dart';
 import 'package:my_teeth/view/ui/screens/user/home_screen.dart';
+import 'package:my_teeth/view/ui/screens/user/settings_screen.dart';
 import 'package:provider/provider.dart';
 import '../../../../constants/strings.dart';
 import '../../../../utils/utils.dart';
@@ -74,7 +75,7 @@ class MainScreen extends StatelessWidget {
                   Provider.of<StateManager>(context, listen: false)
                       .setIsFloatingActionButtonVisible(pageIndex == 0);
                 },
-                children: [const HomeScreen(), NotificationsScreen()],
+                children: [const HomeScreen(), NotificationsScreen(), const SettingsScreen()],
               ),
             ),
           ],
