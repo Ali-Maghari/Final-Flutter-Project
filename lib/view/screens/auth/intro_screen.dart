@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:my_teeth/state/state_manager.dart';
 import 'package:my_teeth/utils/shared_utils.dart';
-import 'package:my_teeth/view/ui/widgets/intro_item.dart';
-import 'package:my_teeth/view/ui/widgets/material_filled_button.dart';
-import 'package:my_teeth/view/ui/widgets/material_text_button.dart';
+import 'package:my_teeth/view/widgets/intro_item.dart';
+import 'package:my_teeth/view/widgets/material_filled_button.dart';
+import 'package:my_teeth/view/widgets/material_text_button.dart';
 import 'package:provider/provider.dart';
 import '../../../../constants/constants.dart';
 import '../../../../constants/strings.dart';

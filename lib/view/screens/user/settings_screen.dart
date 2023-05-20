@@ -1,6 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:my_teeth/view/ui/widgets/settings/setting_widget.dart';
+import 'package:my_teeth/view/widgets/settings/setting_widget.dart';
 
 import '../../../../constants/strings.dart';
 

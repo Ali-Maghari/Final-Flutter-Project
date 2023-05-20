@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_teeth/constants/constants.dart';
-import 'package:my_teeth/view/ui/widgets/notifications/empty_notification_widget.dart';
-import 'package:my_teeth/view/ui/widgets/notifications/notification_widget.dart';
+import 'package:my_teeth/view/widgets/notifications/empty_notification_widget.dart';
+import 'package:my_teeth/view/widgets/notifications/notification_widget.dart';
 import '../../../../model/app_notification.dart';
 
 

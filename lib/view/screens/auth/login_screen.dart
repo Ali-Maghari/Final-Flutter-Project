@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:intl/intl.dart';
 import 'package:my_teeth/constants/constants.dart';
+import 'package:my_teeth/utils/shared_utils.dart';
 import 'package:my_teeth/utils/utils.dart';
-import 'package:my_teeth/view/ui/widgets/material_filled_button.dart';
-import 'package:my_teeth/view/ui/widgets/material_input.dart';
+import 'package:my_teeth/view/screens/auth/register_screen.dart';
+import 'package:my_teeth/view/widgets/material_filled_button.dart';
+import 'package:my_teeth/view/widgets/material_input.dart';
 import 'package:provider/provider.dart';
 import '../../../../constants/strings.dart';
 import '../../../../state/state_manager.dart';
-import '../../../../utils/shared_utils.dart';
 import '../../widgets/material_text_button.dart';
 import '../user/main_screen.dart';
 
-class RegisterScreen extends StatelessWidget {
-  RegisterScreen({super.key});
-
-  final TextEditingController _birthdateController = TextEditingController();
+class LoginScreen extends StatelessWidget {
+  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -42,22 +40,18 @@ class RegisterScreen extends StatelessWidget {
                   fit: BoxFit.contain,
                 ),
                 const SizedBox(height: 60),
-                Text(Strings.welcome,
+                Text(Strings.welcomeBack,
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 22,
                         color: Theme.of(context).colorScheme.primary)),
                 const SizedBox(height: 16),
-                Text(Strings.createAnAccountToContinue,
+                Text(Strings.signInToContinue,
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                         color: Theme.of(context).colorScheme.primary)),
                 const SizedBox(height: 36),
-                MaterialInput(const Text(Strings.name),
-                    prefixIcon: Icon(Icons.person,
-                        color: Theme.of(context).colorScheme.primary)),
-                const SizedBox(height: Margins.inputsMarginWhenErrorNotEnabled),
                 MaterialInput(const Text(Strings.email),
                     prefixIcon: Icon(Icons.email,
                         color: Theme.of(context).colorScheme.primary)),
@@ -82,43 +76,39 @@ class RegisterScreen extends StatelessWidget {
                     );
                   },
                 ),
-                const SizedBox(height: Margins.inputsMarginWhenErrorNotEnabled),
-                MaterialInput(
-                  const Text(Strings.birthdate),
-                  controller: _birthdateController,
-                  prefixIcon: IconButton(
-                    icon: Icon(Icons.calendar_month,
-                        color: Theme.of(context).colorScheme.primary),
-                    onPressed: () {
-                      // show a date picker
-                      _showDataPicker(context);
-                    },
-                  ),
-                  isReadOnly: true,
+                Wrap(
+                  alignment: WrapAlignment.start,
+                  children: [
+                    MaterialTextButton(
+                        child: const Text(Strings.forgotPassword,
+                            style: TextStyle(fontSize: 12)),
+                        onPressed: () {}),
+                  ],
                 ),
-                const SizedBox(height: 40),
+                const SizedBox(height: 20),
                 MaterialFilledButton(
-                    child: const Text(Strings.signUp,
+                    child: const Text(Strings.signIn,
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.bold)),
                     onPressed: () {
-                      // clear all previous stack and push home screen
-                      SharedUtils.getSharedUtils()
-                          .setBool(SharedPreferencesKeys.isUserLoggedIn, true);
-                      Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(
-                              builder: (context) => MainScreen()),
-                          (route) => false);
+                      SharedUtils.getSharedUtils().setBool(SharedPreferencesKeys.isUserLoggedIn, true);
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => MainScreen()));
                     }),
                 const SizedBox(height: 6),
                 Wrap(
                   alignment: WrapAlignment.center,
                   children: [
                     MaterialTextButton(
-                        child: const Text(Strings.alreadyHaveAnAccount,
+                        child: const Text(Strings.notHaveAnAccount,
                             style: TextStyle(fontSize: 12)),
                         onPressed: () {
-                          Navigator.pop(context);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => RegisterScreen(),
+                            ),
+                          );
                         }),
                   ],
                 ),
@@ -127,20 +117,5 @@ class RegisterScreen extends StatelessWidget {
             ),
           )),
     );
-  }
-
-  void _showDataPicker(BuildContext context) {
-    showDatePicker(
-            context: context,
-            initialDate: _birthdateController.text.isEmpty
-                ? DateTime.now()
-                : DateTime.parse(_birthdateController.text),
-            firstDate: DateTime(1900),
-            lastDate: DateTime.now())
-        .then((value) {
-      if (value != null) {
-        _birthdateController.text = DateFormat('yyyy-MM-dd').format(value);
-      }
-    });
   }
 }

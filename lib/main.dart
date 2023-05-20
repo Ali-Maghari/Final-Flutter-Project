@@ -3,7 +3,7 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:my_teeth/state/state_manager.dart';
 import 'package:my_teeth/utils/shared_utils.dart';
 import 'package:provider/provider.dart';
-import 'package:my_teeth/view/ui/screens/auth/splash_screen.dart';
+import 'package:my_teeth/view/screens/auth/splash_screen.dart';
 import 'color/color_schemes.dart' as color_schemes;
 
 void main() {
