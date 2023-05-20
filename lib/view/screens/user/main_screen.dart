@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:lottie/lottie.dart';
-import 'package:my_teeth/constants/constants.dart';
 import 'package:my_teeth/state/state_manager.dart';
 import 'package:my_teeth/view/screens/user/add_or_edit_reminder.dart';
 import 'package:my_teeth/view/screens/user/home_screen.dart';
-import 'package:my_teeth/view/screens/user/profile_screen.dart';
 import 'package:my_teeth/view/screens/user/settings_screen.dart';
 import 'package:provider/provider.dart';
 import '../../../../constants/strings.dart';
@@ -31,67 +28,18 @@ class MainScreen extends StatelessWidget {
     return Scaffold(
       body: Container(
         color: Theme.of(context).colorScheme.surface,
-        child: ListView(
-          controller: scrollController,
-          padding: const EdgeInsets.all(16.0),
+        child: PageView(
+          controller: pageViewController,
+          onPageChanged: (pageIndex) {
+            Provider.of<StateManager>(context, listen: false)
+                .setCurrentMainPage(pageIndex);
+            Provider.of<StateManager>(context, listen: false)
+                .setIsFloatingActionButtonVisible(pageIndex == 0);
+          },
           children: [
-            const SizedBox(height: 20),
-            Row(
-              children: [
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ProfileScreen()),
-                    );
-                  },
-                  child: CircleAvatar(
-                    radius: 22,
-                    backgroundColor: Theme.of(context).colorScheme.secondary,
-                    child: Icon(
-                      Icons.person_outline,
-                      color: Theme.of(context).colorScheme.onSecondary,
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 16,
-                ),
-                const Flexible(
-                    child: Text(
-                  "Welcome Ali Maghari",
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                )),
-                const SizedBox(
-                  width: 8,
-                ),
-                Lottie.asset(
-                  Animations.welcome,
-                  width: 26,
-                  height: 26,
-                  fit: BoxFit.contain,
-                ),
-              ],
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.8,
-              child: PageView(
-                controller: pageViewController,
-                onPageChanged: (pageIndex) {
-                  Provider.of<StateManager>(context, listen: false)
-                      .setCurrentMainPage(pageIndex);
-                  Provider.of<StateManager>(context, listen: false)
-                      .setIsFloatingActionButtonVisible(pageIndex == 0);
-                },
-                children: [
-                  const HomeScreen(),
-                  NotificationsScreen(),
-                  const SettingsScreen()
-                ],
-              ),
-            ),
+            const HomeScreen(),
+            NotificationsScreen(),
+            const SettingsScreen()
           ],
         ),
       ),

@@ -1,5 +1,7 @@
 class Strings {
 
+  Strings._();
+
   static const String appName = "My Teeth";
   static const String introTitleOne = "Keep your teeth clean";
   static const String introTitleTwo = "Dental cleaning reminders";

@@ -17,7 +17,7 @@ class EmptyNotificationWidget extends StatelessWidget {
           height: 200,
           fit: BoxFit.contain,
         ),
-        const SizedBox(height: 20),
+        const SizedBox(height: 20, width: double.infinity,),
         const Text(Strings.noNotificationsFounded,
             style: TextStyle(
               fontSize: 16,
