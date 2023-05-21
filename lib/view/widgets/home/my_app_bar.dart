@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:my_teeth/constants/strings.dart';
+import 'package:my_teeth/controller/state_manager.dart';
+import 'package:provider/provider.dart';
 import '../../../constants/constants.dart';
 import '../../../model/user/user.dart';
 import '../../../model/user/user_manager.dart';
 import '../../screens/user/profile_screen.dart';
 
 class MyAppBar extends StatelessWidget {
-  MyAppBar({super.key});
-
-  final UserManager _userManager = UserManager.getUserManager();
+  const MyAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -39,11 +40,11 @@ class MyAppBar extends StatelessWidget {
                 width: 16,
               ),
               FutureBuilder<User?>(
-                future: getCurrentUser(),
+                future: getCurrentUser(context),
                 builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
                   return Flexible(
                       child: Text(
-                    "Welcome ${snapshot.data?.name}",
+                    "${Strings.welcome} ${snapshot.data?.name}",
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
@@ -67,7 +68,7 @@ class MyAppBar extends StatelessWidget {
     );
   }
 
-  Future<User?> getCurrentUser() async {
-    return await _userManager.getCurrentUser();
+  Future<User?> getCurrentUser(BuildContext context) async {
+    return await Provider.of<StateManager>(context, listen: false).userManager.getCurrentUser();
   }
 }

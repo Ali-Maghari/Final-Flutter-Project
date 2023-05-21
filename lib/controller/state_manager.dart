@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:my_teeth/constants/strings.dart';
 
+import '../model/user/user_manager.dart';
+
 class StateManager with ChangeNotifier {
+  final UserManager userManager = UserManager.getUserManager();
   TextEditingController emailInLoginController = TextEditingController();
   TextEditingController passwordInLoginController = TextEditingController();
   TextEditingController emailInRegisterController = TextEditingController();

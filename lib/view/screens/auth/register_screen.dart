@@ -3,7 +3,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:my_teeth/constants/constants.dart';
 import 'package:my_teeth/model/database/db.dart';
-import 'package:my_teeth/model/user/user_manager.dart';
 import 'package:my_teeth/utils/utils.dart';
 import 'package:my_teeth/view/widgets/material_filled_button.dart';
 import 'package:my_teeth/view/widgets/material_input.dart';
@@ -15,9 +14,7 @@ import '../../widgets/material_text_button.dart';
 import '../user/main_screen.dart';
 
 class RegisterScreen extends StatelessWidget {
-  RegisterScreen({super.key});
-
-  final UserManager _userManager = UserManager.getUserManager();
+  const RegisterScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -154,8 +151,8 @@ class RegisterScreen extends StatelessWidget {
                             user.id = await Db.getDatabaseHelper()
                                 .getUserDataHelper()
                                 .insertUser(user);
-                            _userManager.setCurrentUser(user);
-                            _userManager.login();
+                            provider.userManager.setCurrentUser(user);
+                            provider.userManager.login();
                             // clear all previous stack and push home screen
                             if(context.mounted) {
                               Navigator.of(context).pushAndRemoveUntil(

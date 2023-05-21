@@ -24,6 +24,7 @@ class Animations {
   static const welcome = "${_basePath}welcome.json";
   static const sadOne = "${_basePath}sad_01.json";
   static const sadTwo = "${_basePath}sad_02.json";
+  static const sadThree = "${_basePath}sad_03.json";
 }
 
 class NotificationTypes {

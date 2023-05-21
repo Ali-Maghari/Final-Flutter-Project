@@ -47,5 +47,6 @@ class Strings {
   static const String passwordIsInvalid = "Your password must be in format (A-Z, a-z, 0-9, 8-16)";
   static const String nameIsRequired = "You must enter your name";
   static const String birthdateIsRequired = "You must enter your birthdate";
+  static const String incorrectEmailOrPassword = "Incorrect email or password";
 
 }

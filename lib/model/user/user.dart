@@ -46,5 +46,5 @@ class User {
   static String colBirthdate = "birthdate";
   static String colImage = "image";
   static String createTable =
-      "CREATE TABLE IF NOT EXISTS $tableName ($colId INTEGER PRIMARY KEY AUTOINCREMENT, $colName TEXT, $colEmail TEXT, $colPassword TEXT, $colBirthdate INTEGER, $colImage BLOB)";
+      "CREATE TABLE IF NOT EXISTS $tableName ($colId INTEGER PRIMARY KEY AUTOINCREMENT, $colName TEXT NOT NULL, $colEmail TEXT UNIQUE NOT NULL, $colPassword TEXT NOT NULL, $colBirthdate INTEGER NOT NULL, $colImage BLOB)";
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:lottie/lottie.dart';
 import 'package:my_teeth/constants/constants.dart';
 import 'package:my_teeth/model/shared_preferences/shared_utils.dart';
+import 'package:my_teeth/model/user/user.dart';
 import 'package:my_teeth/utils/utils.dart';
 import 'package:my_teeth/view/screens/auth/register_screen.dart';
 import 'package:my_teeth/view/widgets/material_filled_button.dart';
@@ -9,6 +11,7 @@ import 'package:my_teeth/view/widgets/material_input.dart';
 import 'package:provider/provider.dart';
 import '../../../../constants/strings.dart';
 import '../../../controller/state_manager.dart';
+import '../../../model/database/db.dart';
 import '../../widgets/material_text_button.dart';
 import '../user/main_screen.dart';
 
@@ -19,15 +22,30 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Utils.getUtils().setStatusBarAndNavigationBarColor(
       context,
-      statusBarColorInLight: Theme.of(context).colorScheme.primary,
-      navigationBarColorInLight: Theme.of(context).colorScheme.surface,
-      statusBarColorInDark: Theme.of(context).colorScheme.surface,
-      navigationBarColorInDark: Theme.of(context).colorScheme.surface,
+      statusBarColorInLight: Theme
+          .of(context)
+          .colorScheme
+          .primary,
+      navigationBarColorInLight: Theme
+          .of(context)
+          .colorScheme
+          .surface,
+      statusBarColorInDark: Theme
+          .of(context)
+          .colorScheme
+          .surface,
+      navigationBarColorInDark: Theme
+          .of(context)
+          .colorScheme
+          .surface,
     );
     return Scaffold(
       body: Consumer<StateManager>(builder: (context, provider, child) {
         return Container(
-            color: Theme.of(context).colorScheme.surface,
+            color: Theme
+                .of(context)
+                .colorScheme
+                .surface,
             child: Center(
               child: Form(
                 key: provider.loginFormKey,
@@ -47,44 +65,61 @@ class LoginScreen extends StatelessWidget {
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 22,
-                            color: Theme.of(context).colorScheme.primary)),
+                            color: Theme
+                                .of(context)
+                                .colorScheme
+                                .primary)),
                     const SizedBox(height: 16),
                     Text(Strings.signInToContinue,
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
-                            color: Theme.of(context).colorScheme.primary)),
+                            color: Theme
+                                .of(context)
+                                .colorScheme
+                                .primary)),
                     const SizedBox(height: 36),
                     MaterialInput(const Text(Strings.email),
+                        controller: provider.emailInLoginController,
                         prefixIcon: Icon(Icons.email,
-                            color: Theme.of(context).colorScheme.primary),
+                            color: Theme
+                                .of(context)
+                                .colorScheme
+                                .primary),
                         validator: (text) {
-                      if (text == null || text.isEmpty) {
-                        return Strings.emailIsRequired;
-                      } else if (!Utils.getUtils().isValidEmail(text)) {
-                        return Strings.emailIsInvalid;
-                      }
-                      return null;
-                    }),
+                          if (text == null || text.isEmpty) {
+                            return Strings.emailIsRequired;
+                          } else if (!Utils.getUtils().isValidEmail(text)) {
+                            return Strings.emailIsInvalid;
+                          }
+                          return null;
+                        }),
                     const SizedBox(
                         height: Margins.inputsMarginWhenErrorNotEnabled),
                     MaterialInput(
                       const Text(Strings.password),
+                      controller: provider.passwordInLoginController,
                       isObscureText: provider
                           .passwordInLoginObscureTextState,
                       prefixIcon: Icon(Icons.lock,
-                          color: Theme.of(context).colorScheme.primary),
+                          color: Theme
+                              .of(context)
+                              .colorScheme
+                              .primary),
                       suffixIcon: (isObscureText) {
                         return IconButton(
                           icon: Icon(
                               isObscureText
                                   ? Icons.visibility
                                   : Icons.visibility_off,
-                              color: Theme.of(context).colorScheme.primary),
+                              color: Theme
+                                  .of(context)
+                                  .colorScheme
+                                  .primary),
                           onPressed: () {
                             Provider.of<StateManager>(context, listen: false)
                                 .setPasswordInLoginObscureTextState(
-                                    !isObscureText);
+                                !isObscureText);
                           },
                         );
                       },
@@ -111,14 +146,32 @@ class LoginScreen extends StatelessWidget {
                         child: const Text(Strings.signIn,
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold)),
-                        onPressed: () {
+                        onPressed: () async {
                           provider.loginFormKey.currentState!.validate();
                           if (provider.loginFormKey.currentState!.validate()) {
-                            SharedUtils.getSharedUtils().setBool(
-                                SharedPreferencesKeys.isUserLoggedIn, true);
-                            Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                    builder: (context) => MainScreen()));
+                            User? user = await Db.getDatabaseHelper()
+                                .getUserDataHelper()
+                                .getUserByEmailAndPassword(
+                              email: provider.emailInLoginController.text,
+                              password: provider.passwordInLoginController.text,
+                            );
+                            if (user == null) {
+                              if (context.mounted) {
+                                Utils.getUtils().showSnackBar(context: context,
+                                    message: Strings.incorrectEmailOrPassword,
+                                    animation: Animations.sadThree);
+                              }
+                              return;
+                            }
+                            provider.userManager.setCurrentUser(user);
+                            provider.userManager.login();
+                            if (context.mounted) {
+                              SharedUtils.getSharedUtils().setBool(
+                                  SharedPreferencesKeys.isUserLoggedIn, true);
+                              Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                      builder: (context) => MainScreen()));
+                            }
                           }
                         }),
                     const SizedBox(height: 6),
@@ -132,7 +185,7 @@ class LoginScreen extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => RegisterScreen(),
+                                  builder: (context) => const RegisterScreen(),
                                 ),
                               );
                             }),

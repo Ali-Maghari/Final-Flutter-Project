@@ -35,6 +35,16 @@ class UserDataHelper {
     return User.fromMap(results.first);
   }
 
+  Future<User?> getUserByEmailAndPassword(
+      {required String email, required String password}) async {
+    List<Map> results = await _db.query(User.tableName,
+        where: '${User.colEmail}="$email" AND ${User.colPassword}="$password"');
+    if (results.isEmpty) {
+      return null;
+    }
+    return User.fromMap(results.first);
+  }
+
   Future<bool> updateUser(User user) async {
     try {
       await _db.update(User.tableName, user.toMap(),
@@ -44,5 +54,4 @@ class UserDataHelper {
       return false;
     }
   }
-
 }
