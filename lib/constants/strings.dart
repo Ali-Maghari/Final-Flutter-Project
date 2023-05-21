@@ -41,5 +41,11 @@ class Strings {
   static const String description = "Description";
   static const String reminderTime = "Reminder Time";
   static const String reminderAddedSuccessfully = "Reminder added successfully";
+  static const String emailIsRequired = "You must enter your email";
+  static const String emailIsInvalid = "Enter a valid email";
+  static const String passwordIsRequired = "You must enter your password";
+  static const String passwordIsInvalid = "Your password must be in format (A-Z, a-z, 0-9, 8-16)";
+  static const String nameIsRequired = "You must enter your name";
+  static const String birthdateIsRequired = "You must enter your birthdate";
 
 }

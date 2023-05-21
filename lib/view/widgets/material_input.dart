@@ -9,6 +9,9 @@ class MaterialInput extends StatelessWidget {
   final bool isEnabled;
   final bool isReadOnly;
   final TextEditingController? controller;
+  final String? Function(String? value)? validator;
+  final AutovalidateMode? autoValidateMode = AutovalidateMode.onUserInteraction;
+  final void Function()? onTap;
 
   const MaterialInput(this.label,
       {super.key,
@@ -18,14 +21,19 @@ class MaterialInput extends StatelessWidget {
       this.suffixIcon,
       this.isEnabled = true,
       this.isReadOnly = false,
-      this.controller});
+      this.controller,
+      this.validator,
+      this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       obscureText: isObscureText,
       readOnly: isReadOnly,
+      autovalidateMode: autoValidateMode,
+      validator: validator,
       controller: controller,
+      onTap: onTap,
       decoration: InputDecoration(
           isDense: true,
           enabled: isEnabled,

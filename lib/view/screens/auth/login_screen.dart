@@ -25,97 +25,125 @@ class LoginScreen extends StatelessWidget {
       navigationBarColorInDark: Theme.of(context).colorScheme.surface,
     );
     return Scaffold(
-      body: Container(
-          color: Theme.of(context).colorScheme.surface,
-          child: Center(
-            child: ListView(
-              padding: const EdgeInsets.all(16),
-              shrinkWrap: true,
-              children: [
-                const SizedBox(height: 20),
-                SvgPicture.asset(
-                  AppIcons.appIcon,
-                  width: 100,
-                  height: 100,
-                  fit: BoxFit.contain,
-                ),
-                const SizedBox(height: 60),
-                Text(Strings.welcomeBack,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 22,
-                        color: Theme.of(context).colorScheme.primary)),
-                const SizedBox(height: 16),
-                Text(Strings.signInToContinue,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                        color: Theme.of(context).colorScheme.primary)),
-                const SizedBox(height: 36),
-                MaterialInput(const Text(Strings.email),
-                    prefixIcon: Icon(Icons.email,
-                        color: Theme.of(context).colorScheme.primary)),
-                const SizedBox(height: Margins.inputsMarginWhenErrorNotEnabled),
-                MaterialInput(
-                  const Text(Strings.password),
-                  isObscureText: Provider.of<StateManager>(context)
-                      .passwordInLoginObscureTextState,
-                  prefixIcon: Icon(Icons.lock,
-                      color: Theme.of(context).colorScheme.primary),
-                  suffixIcon: (isObscureText) {
-                    return IconButton(
-                      icon: Icon(
-                          isObscureText
-                              ? Icons.visibility
-                              : Icons.visibility_off,
-                          color: Theme.of(context).colorScheme.primary),
-                      onPressed: () {
-                        Provider.of<StateManager>(context, listen: false)
-                            .setPasswordInLoginObscureTextState(!isObscureText);
-                      },
-                    );
-                  },
-                ),
-                Wrap(
-                  alignment: WrapAlignment.start,
+      body: Consumer<StateManager>(builder: (context, provider, child) {
+        return Container(
+            color: Theme.of(context).colorScheme.surface,
+            child: Center(
+              child: Form(
+                key: provider.loginFormKey,
+                child: ListView(
+                  padding: const EdgeInsets.all(16),
+                  shrinkWrap: true,
                   children: [
-                    MaterialTextButton(
-                        child: const Text(Strings.forgotPassword,
-                            style: TextStyle(fontSize: 12)),
-                        onPressed: () {}),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                MaterialFilledButton(
-                    child: const Text(Strings.signIn,
+                    const SizedBox(height: 20),
+                    SvgPicture.asset(
+                      AppIcons.appIcon,
+                      width: 100,
+                      height: 100,
+                      fit: BoxFit.contain,
+                    ),
+                    const SizedBox(height: 60),
+                    Text(Strings.welcomeBack,
                         style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold)),
-                    onPressed: () {
-                      SharedUtils.getSharedUtils().setBool(SharedPreferencesKeys.isUserLoggedIn, true);
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (context) => MainScreen()));
+                            fontWeight: FontWeight.bold,
+                            fontSize: 22,
+                            color: Theme.of(context).colorScheme.primary)),
+                    const SizedBox(height: 16),
+                    Text(Strings.signInToContinue,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: Theme.of(context).colorScheme.primary)),
+                    const SizedBox(height: 36),
+                    MaterialInput(const Text(Strings.email),
+                        prefixIcon: Icon(Icons.email,
+                            color: Theme.of(context).colorScheme.primary),
+                        validator: (text) {
+                      if (text == null || text.isEmpty) {
+                        return Strings.emailIsRequired;
+                      } else if (!Utils.getUtils().isValidEmail(text)) {
+                        return Strings.emailIsInvalid;
+                      }
+                      return null;
                     }),
-                const SizedBox(height: 6),
-                Wrap(
-                  alignment: WrapAlignment.center,
-                  children: [
-                    MaterialTextButton(
-                        child: const Text(Strings.notHaveAnAccount,
-                            style: TextStyle(fontSize: 12)),
+                    const SizedBox(
+                        height: Margins.inputsMarginWhenErrorNotEnabled),
+                    MaterialInput(
+                      const Text(Strings.password),
+                      isObscureText: provider
+                          .passwordInLoginObscureTextState,
+                      prefixIcon: Icon(Icons.lock,
+                          color: Theme.of(context).colorScheme.primary),
+                      suffixIcon: (isObscureText) {
+                        return IconButton(
+                          icon: Icon(
+                              isObscureText
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                              color: Theme.of(context).colorScheme.primary),
+                          onPressed: () {
+                            Provider.of<StateManager>(context, listen: false)
+                                .setPasswordInLoginObscureTextState(
+                                    !isObscureText);
+                          },
+                        );
+                      },
+                      validator: (text) {
+                        if (text == null || text.isEmpty) {
+                          return Strings.passwordIsRequired;
+                        } else if (Utils.getUtils().isValidPassword(text)) {
+                          return Strings.passwordIsInvalid;
+                        }
+                        return null;
+                      },
+                    ),
+                    Wrap(
+                      alignment: WrapAlignment.start,
+                      children: [
+                        MaterialTextButton(
+                            child: const Text(Strings.forgotPassword,
+                                style: TextStyle(fontSize: 12)),
+                            onPressed: () {}),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    MaterialFilledButton(
+                        child: const Text(Strings.signIn,
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold)),
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => RegisterScreen(),
-                            ),
-                          );
+                          provider.loginFormKey.currentState!.validate();
+                          if (provider.loginFormKey.currentState!.validate()) {
+                            SharedUtils.getSharedUtils().setBool(
+                                SharedPreferencesKeys.isUserLoggedIn, true);
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (context) => MainScreen()));
+                          }
                         }),
+                    const SizedBox(height: 6),
+                    Wrap(
+                      alignment: WrapAlignment.center,
+                      children: [
+                        MaterialTextButton(
+                            child: const Text(Strings.notHaveAnAccount,
+                                style: TextStyle(fontSize: 12)),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => RegisterScreen(),
+                                ),
+                              );
+                            }),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
                   ],
                 ),
-                const SizedBox(height: 20),
-              ],
-            ),
-          )),
+              ),
+            ));
+      }),
     );
   }
 }

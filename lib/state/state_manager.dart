@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:my_teeth/constants/strings.dart';
 
 class StateManager with ChangeNotifier {
-  bool passwordInLoginObscureTextState = false;
+  GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
+  GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
+  bool passwordInLoginObscureTextState = true;
+  bool passwordInRegisterObscureTextState = true;
   int currentIntroPage = 0;
   String title = Strings.home;
   int currentMainPage = 0;
@@ -11,6 +14,11 @@ class StateManager with ChangeNotifier {
 
   void setPasswordInLoginObscureTextState(bool isObscureText) {
     passwordInLoginObscureTextState = isObscureText;
+    notifyListeners();
+  }
+
+  void setPasswordInRegisterObscureTextState(bool isObscureText) {
+    passwordInRegisterObscureTextState = isObscureText;
     notifyListeners();
   }
 
