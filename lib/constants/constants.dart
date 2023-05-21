@@ -1,5 +1,6 @@
 class AppIcons {
   static const appIcon = "assets/svg/app_icon.svg";
+  static const customize = "assets/svg/ic_customize.svg";
 }
 
 class Margins {

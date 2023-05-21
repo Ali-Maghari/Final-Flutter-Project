@@ -30,13 +30,13 @@ class Strings {
   static const String settings = "Settings";
   static const String noRemindersFounded = "No reminders have been scheduled yet";
   static const String noNotificationsFounded = "No notifications have been received yet";
-  static const String addCleaningReminder = "Add Reminder";
+  static const String customizeReminders = "Customize Reminders";
   static const String theme = "Theme";
   static const String logout = "Logout";
   static const String rewards = "Rewards";
   static const String profile = "Profile";
   static const String editProfile = "Edit Profile";
-  static const String addReminder = "Add Reminder";
+  static const String reminders = "Reminders";
   static const String title = "Title";
   static const String description = "Description";
   static const String reminderTime = "Reminder Time";
@@ -48,5 +48,7 @@ class Strings {
   static const String nameIsRequired = "You must enter your name";
   static const String birthdateIsRequired = "You must enter your birthdate";
   static const String incorrectEmailOrPassword = "Incorrect email or password";
+  static const String addNewReminder = "Add new reminder";
+  static const String addReminder = "Add reminder";
 
 }

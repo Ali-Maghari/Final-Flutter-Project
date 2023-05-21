@@ -71,6 +71,7 @@ flutter:
     - assets/svg/intro/ic_intro_one.svg
     - assets/svg/intro/ic_intro_two.svg
     - assets/svg/intro/ic_intro_three.svg
+    - assets/svg/ic_customize.svg
     - assets/animations/welcome.json
     - assets/animations/sad_01.json
     - assets/animations/sad_02.json

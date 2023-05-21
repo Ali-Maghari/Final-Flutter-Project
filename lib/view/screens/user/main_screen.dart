@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:my_teeth/constants/constants.dart';
 import 'package:my_teeth/controller/state_manager.dart';
-import 'package:my_teeth/view/screens/user/add_or_edit_reminder.dart';
+import 'package:my_teeth/view/screens/user/reminders.dart';
 import 'package:my_teeth/view/screens/user/home_screen.dart';
 import 'package:my_teeth/view/screens/user/settings_screen.dart';
 import 'package:provider/provider.dart';
@@ -75,14 +77,22 @@ class MainScreen extends StatelessWidget {
               ? FloatingActionButton.extended(
                   isExtended: Provider.of<StateManager>(context)
                       .isFloatingActionButtonExtended,
-                  tooltip: Strings.addCleaningReminder,
-                  icon: const Icon(Icons.add),
+                  tooltip: Strings.customizeReminders,
+                  icon: SvgPicture.asset(
+                    AppIcons.customize,
+                    width: 22,
+                    height: 22,
+                    fit: BoxFit.contain,
+                    colorFilter: ColorFilter.mode(
+                        Theme.of(context).colorScheme.onSurface,
+                        BlendMode.srcIn),
+                  ),
                   onPressed: () {
                     Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => AddOrEditReminder()));
+                        MaterialPageRoute(builder: (context) => Reminders()));
                   },
-                  label: const Text(Strings.addCleaningReminder))
+                  label: const Text(Strings.customizeReminders))
               : const SizedBox(),
     );
   }

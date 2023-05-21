@@ -5,7 +5,6 @@ import 'package:my_teeth/controller/state_manager.dart';
 import 'package:provider/provider.dart';
 import '../../../constants/constants.dart';
 import '../../../model/user/user.dart';
-import '../../../model/user/user_manager.dart';
 import '../../screens/user/profile_screen.dart';
 
 class MyAppBar extends StatelessWidget {

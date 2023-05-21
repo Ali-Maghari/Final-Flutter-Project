@@ -20,6 +20,7 @@ class StateManager with ChangeNotifier {
   int currentMainPage = 0;
   bool isFloatingActionButtonExtended = true;
   bool isFloatingActionButtonVisible = true;
+  TextEditingController timeControllerInAddOrEditReminderBottomSheet = TextEditingController();
 
   void setPasswordInLoginObscureTextState(bool isObscureText) {
     passwordInLoginObscureTextState = isObscureText;
