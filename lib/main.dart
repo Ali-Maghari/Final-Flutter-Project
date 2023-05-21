@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dynamic_color/dynamic_color.dart';
-import 'package:my_teeth/state/state_manager.dart';
+import 'package:my_teeth/controller/state_manager.dart';
 import 'package:my_teeth/utils/shared_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:my_teeth/view/screens/auth/splash_screen.dart';

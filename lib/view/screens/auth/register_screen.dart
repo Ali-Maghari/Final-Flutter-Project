@@ -7,7 +7,7 @@ import 'package:my_teeth/view/widgets/material_filled_button.dart';
 import 'package:my_teeth/view/widgets/material_input.dart';
 import 'package:provider/provider.dart';
 import '../../../../constants/strings.dart';
-import '../../../../state/state_manager.dart';
+import '../../../controller/state_manager.dart';
 import '../../../../utils/shared_utils.dart';
 import '../../widgets/material_text_button.dart';
 import '../user/main_screen.dart';

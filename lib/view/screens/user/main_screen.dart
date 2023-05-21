@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:my_teeth/state/state_manager.dart';
+import 'package:my_teeth/controller/state_manager.dart';
 import 'package:my_teeth/view/screens/user/add_or_edit_reminder.dart';
 import 'package:my_teeth/view/screens/user/home_screen.dart';
 import 'package:my_teeth/view/screens/user/settings_screen.dart';

@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../../../constants/constants.dart';
 import '../../../../constants/strings.dart';
-import '../../../../state/state_manager.dart';
+import '../../../controller/state_manager.dart';
 import '../../../../utils/utils.dart';
 import '../../widgets/material_filled_button.dart';
 import '../../widgets/material_input.dart';

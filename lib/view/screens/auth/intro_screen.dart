@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_teeth/state/state_manager.dart';
+import 'package:my_teeth/controller/state_manager.dart';
 import 'package:my_teeth/utils/shared_utils.dart';
 import 'package:my_teeth/view/widgets/intro_item.dart';
 import 'package:my_teeth/view/widgets/material_filled_button.dart';
