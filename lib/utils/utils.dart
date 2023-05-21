@@ -32,11 +32,16 @@ class Utils {
   }
 
   bool isValidPassword(String password) {
-    return password.contains(RegExp(r'[A-Z]')) &&
-        password.contains(RegExp(r'[a-z]')) &&
-        password.contains(RegExp(r'[0-9]')) &&
-        password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'));
+    if (password.length >= 8
+    && password.contains(RegExp(r'[A-Z]'))
+    && password.contains(RegExp(r'[a-z]'))
+    && password.contains(RegExp(r'[0-9]'))
+    && password.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
+      return true;
+    }
+    return false;
   }
+
 
   bool isValidEmail(String email) {
     return email.contains('@') &&

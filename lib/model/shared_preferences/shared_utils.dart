@@ -1,7 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedUtils {
-  SharedUtils._privateConstructor();
+  SharedUtils._();
 
   static late SharedPreferences _sharedPreferences;
 

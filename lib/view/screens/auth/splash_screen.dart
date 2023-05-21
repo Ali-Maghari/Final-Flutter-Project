@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:my_teeth/utils/shared_utils.dart';
+import 'package:my_teeth/model/shared_preferences/shared_utils.dart';
 import 'package:my_teeth/utils/utils.dart';
 import 'package:my_teeth/view/screens/auth/intro_screen.dart';
 import '../../../../constants/constants.dart';

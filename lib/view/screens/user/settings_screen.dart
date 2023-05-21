@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:my_teeth/controller/state_manager.dart';
+import 'package:my_teeth/model/user/user_manager.dart';
 import 'package:my_teeth/view/widgets/settings/setting_widget.dart';
 import 'package:provider/provider.dart';
 import '../../../../constants/strings.dart';
 import '../../../constants/constants.dart';
-import '../../../utils/shared_utils.dart';
+import '../../../model/shared_preferences/shared_utils.dart';
 import '../auth/login_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
-  const SettingsScreen({super.key});
+  SettingsScreen({super.key});
+
+  final UserManager _userManager = UserManager.getUserManager();
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +34,7 @@ class SettingsScreen extends StatelessWidget {
               Provider.of<StateManager>(context, listen: false).currentMainPage = 0;
               Provider.of<StateManager>(context, listen: false).isFloatingActionButtonVisible = true;
               Provider.of<StateManager>(context, listen: false).isFloatingActionButtonExtended = true;
-              SharedUtils.getSharedUtils().setBool(SharedPreferencesKeys.isUserLoggedIn, false);
+              _userManager.logout();
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => const LoginScreen()),

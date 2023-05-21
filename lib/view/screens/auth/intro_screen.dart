@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:my_teeth/controller/state_manager.dart';
-import 'package:my_teeth/utils/shared_utils.dart';
+import 'package:my_teeth/model/shared_preferences/shared_utils.dart';
 import 'package:my_teeth/view/widgets/intro_item.dart';
 import 'package:my_teeth/view/widgets/material_filled_button.dart';
 import 'package:my_teeth/view/widgets/material_text_button.dart';
 import 'package:provider/provider.dart';
 import '../../../../constants/constants.dart';
 import '../../../../constants/strings.dart';
-import '../../../../model/intro.dart';
+import '../../../model/auth/intro.dart';
 import '../../../../utils/utils.dart';
 import '../../widgets/intro_dot.dart';
 import '../../widgets/material_outlined_button.dart';

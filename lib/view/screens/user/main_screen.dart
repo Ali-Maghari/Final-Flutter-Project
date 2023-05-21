@@ -39,7 +39,7 @@ class MainScreen extends StatelessWidget {
           children: [
             const HomeScreen(),
             NotificationsScreen(),
-            const SettingsScreen()
+            SettingsScreen()
           ],
         ),
       ),

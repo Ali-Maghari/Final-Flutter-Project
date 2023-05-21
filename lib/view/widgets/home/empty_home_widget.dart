@@ -11,7 +11,7 @@ class EmptyHomeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const MyAppBar(),
+        MyAppBar(),
         Expanded(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

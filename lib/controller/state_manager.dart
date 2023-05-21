@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:my_teeth/constants/strings.dart';
 
 class StateManager with ChangeNotifier {
+  TextEditingController emailInLoginController = TextEditingController();
+  TextEditingController passwordInLoginController = TextEditingController();
+  TextEditingController emailInRegisterController = TextEditingController();
+  TextEditingController passwordInRegisterController = TextEditingController();
+  TextEditingController nameInRegisterController = TextEditingController();
+  TextEditingController birthdateInRegisterController = TextEditingController();
   GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
   GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
   bool passwordInLoginObscureTextState = true;

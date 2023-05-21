@@ -16,6 +16,7 @@ class IntroImages {
 class SharedPreferencesKeys {
   static const isFirstTimeToOpen = "isFirstTimeToOpen";
   static const isUserLoggedIn = "isUserLoggedIn";
+  static const loggedUserId = "loggedUserId";
 }
 
 class Animations {

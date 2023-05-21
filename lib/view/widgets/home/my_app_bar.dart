@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import '../../../constants/constants.dart';
+import '../../../model/user/user.dart';
+import '../../../model/user/user_manager.dart';
 import '../../screens/user/profile_screen.dart';
 
 class MyAppBar extends StatelessWidget {
-  const MyAppBar({super.key});
+  MyAppBar({super.key});
+
+  final UserManager _userManager = UserManager.getUserManager();
 
   @override
   Widget build(BuildContext context) {
@@ -34,13 +38,19 @@ class MyAppBar extends StatelessWidget {
               const SizedBox(
                 width: 16,
               ),
-              const Flexible(
-                  child: Text(
-                "Welcome Ali Maghari",
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              )),
+              FutureBuilder<User?>(
+                future: getCurrentUser(),
+                builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
+                  return Flexible(
+                      child: Text(
+                    "Welcome ${snapshot.data?.name}",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold),
+                  ));
+                },
+              ),
               const SizedBox(
                 width: 8,
               ),
@@ -55,5 +65,9 @@ class MyAppBar extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  Future<User?> getCurrentUser() async {
+    return await _userManager.getCurrentUser();
   }
 }

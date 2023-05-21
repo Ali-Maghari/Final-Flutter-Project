@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:my_teeth/controller/state_manager.dart';
-import 'package:my_teeth/utils/shared_utils.dart';
+import 'package:my_teeth/model/database/db.dart';
+import 'package:my_teeth/model/shared_preferences/shared_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:my_teeth/view/screens/auth/splash_screen.dart';
 import 'color/color_schemes.dart' as color_schemes;
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SharedUtils.init();
+    Db.init("my_teeth");
     return DynamicColorBuilder(
         builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
       ColorScheme lightColorScheme;
