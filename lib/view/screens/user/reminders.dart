@@ -5,6 +5,7 @@ import '../../../../constants/strings.dart';
 import '../../../../utils/utils.dart';
 import '../../widgets/material_filled_button.dart';
 import '../../widgets/material_input.dart';
+import '../../widgets/reminders/reminder_widget.dart';
 
 class Reminders extends StatelessWidget {
   Reminders({super.key});
@@ -38,7 +39,40 @@ class Reminders extends StatelessWidget {
         ),
       ),
       body: Container(
-          color: Theme.of(context).colorScheme.surface, child: SizedBox()),
+          color: Theme.of(context).colorScheme.surface,
+          child: ListView(
+            padding: const EdgeInsets.all(8),
+            children: [
+              SizedBox(
+                width: double.infinity,
+                child: Wrap(
+                  alignment: WrapAlignment.center,
+                  spacing: 16,
+                  runSpacing: 16,
+                  children: const [
+                    Reminder(),
+                    Reminder(),
+                    Reminder(),
+                    Reminder(),
+                    Reminder(),
+                    Reminder(),
+                    Reminder(),
+                    Reminder(),
+                    Reminder(),
+                    Reminder(),
+                    Reminder(),
+                    Reminder(),
+                    Reminder(),
+                    Reminder(),
+                    Reminder(),
+                    Reminder(),
+                    Reminder(),
+                    Reminder(),
+                  ],
+                ),
+              ),
+            ],
+          )),
       floatingActionButton: FloatingActionButton.extended(
           isExtended: true,
           tooltip: Strings.addNewReminder,

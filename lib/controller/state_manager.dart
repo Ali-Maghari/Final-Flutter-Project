@@ -13,6 +13,7 @@ class StateManager with ChangeNotifier {
   TextEditingController birthdateInRegisterController = TextEditingController();
   GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
   GlobalKey<FormState> registerFormKey = GlobalKey<FormState>();
+  GlobalKey<FormState> addOrEditReminderFormKey = GlobalKey<FormState>();
   bool passwordInLoginObscureTextState = true;
   bool passwordInRegisterObscureTextState = true;
   int currentIntroPage = 0;
@@ -21,6 +22,8 @@ class StateManager with ChangeNotifier {
   bool isFloatingActionButtonExtended = true;
   bool isFloatingActionButtonVisible = true;
   TextEditingController timeControllerInAddOrEditReminderBottomSheet = TextEditingController();
+  TextEditingController titleControllerInAddOrEditReminderBottomSheet = TextEditingController();
+  TextEditingController descriptionControllerInAddOrEditReminderBottomSheet = TextEditingController();
 
   void setPasswordInLoginObscureTextState(bool isObscureText) {
     passwordInLoginObscureTextState = isObscureText;

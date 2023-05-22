@@ -12,60 +12,87 @@ class AddOrEditReminder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: ListView(
-        padding: const EdgeInsets.all(16),
-        shrinkWrap: true,
-        children: [
-          const SizedBox(height: 20),
-          MaterialInput(const Text(Strings.title),
-              prefixIcon: Icon(Icons.title_outlined,
-                  color: Theme.of(context).colorScheme.primary)),
-          const SizedBox(height: Margins.inputsMarginWhenErrorNotEnabled),
-          MaterialInput(const Text(Strings.description),
-              prefixIcon: Icon(Icons.description_outlined,
-                  color: Theme.of(context).colorScheme.primary)),
-          const SizedBox(height: Margins.inputsMarginWhenErrorNotEnabled),
-          MaterialInput(
-            const Text(Strings.reminderTime),
-            controller: Provider.of<StateManager>(context)
-                .timeControllerInAddOrEditReminderBottomSheet,
-            prefixIcon: IconButton(
-              icon: Icon(Icons.access_time_outlined,
-                  color: Theme.of(context).colorScheme.primary),
-              onPressed: () {
-                // show a time picker
-                _showTimePicker(context);
-              },
-            ),
-            isReadOnly: true,
-          ),
-          const SizedBox(height: 40),
-          MaterialFilledButton(
-              child: const Text(Strings.addReminder,
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-              onPressed: () {
-                Navigator.of(context).pop();
-                Utils.getUtils().showSnackBar(
-                    context: context,
-                    message: Strings.reminderAddedSuccessfully,
-                    duration: 1400);
+    return Consumer<StateManager>(builder: (context, provider, child) {
+      return Center(
+        child: Form(
+          key: provider.addOrEditReminderFormKey,
+          child: ListView(
+            padding: const EdgeInsets.all(16),
+            shrinkWrap: true,
+            children: [
+              const SizedBox(height: 20),
+              MaterialInput(const Text(Strings.title),
+                  controller:
+                      provider.titleControllerInAddOrEditReminderBottomSheet,
+                  prefixIcon: Icon(Icons.title_outlined,
+                      color: Theme.of(context).colorScheme.primary),
+                  validator: (text) {
+                if (text == null || text.isEmpty) {
+                  return Strings.reminderTitleRequired;
+                }
+                return null;
               }),
-          const SizedBox(height: 20),
-        ],
-      ),
-    );
+              const SizedBox(height: Margins.inputsMarginWhenErrorNotEnabled),
+              MaterialInput(const Text(Strings.reminderTime),
+                  controller:
+                      provider.timeControllerInAddOrEditReminderBottomSheet,
+                  prefixIcon: IconButton(
+                    icon: Icon(Icons.access_time_outlined,
+                        color: Theme.of(context).colorScheme.primary),
+                    onPressed: () {
+                      // show a time picker
+                      _showTimePicker(context, provider);
+                    },
+                  ),
+                  onTap: () {
+                    _showTimePicker(context, provider);
+                  },
+                  isReadOnly: true,
+                  validator: (text) {
+                    if (text == null || text.isEmpty) {
+                      return Strings.reminderTimeRequired;
+                    }
+                    return null;
+                  }),
+              const SizedBox(height: Margins.inputsMarginWhenErrorNotEnabled),
+              MaterialInput(const Text(Strings.description),
+                  controller: provider
+                      .descriptionControllerInAddOrEditReminderBottomSheet,
+                  helperText: Strings.optional,
+                  prefixIcon: Icon(Icons.description_outlined,
+                      color: Theme.of(context).colorScheme.primary)),
+              const SizedBox(height: 40),
+              MaterialFilledButton(
+                  child: const Text(Strings.addReminder,
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                  onPressed: () {
+                    provider.addOrEditReminderFormKey.currentState!.validate();
+                    if (provider.addOrEditReminderFormKey.currentState!
+                        .validate()) {
+                      Navigator.of(context).pop();
+                      Utils.getUtils().showSnackBar(
+                          context: context,
+                          message: Strings.reminderAddedSuccessfully,
+                          duration: 1400);
+                    }
+                  }),
+              const SizedBox(height: 20),
+            ],
+          ),
+        ),
+      );
+    });
   }
 
-  void _showTimePicker(BuildContext context) {
+  void _showTimePicker(BuildContext context, StateManager provider) {
     showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(),
     ).then((value) {
       if (value != null) {
-        Provider.of<StateManager>(context, listen: false)
-            .timeControllerInAddOrEditReminderBottomSheet
-            .text = value.format(context);
+        provider.timeControllerInAddOrEditReminderBottomSheet.text =
+            value.format(context);
       }
     });
   }

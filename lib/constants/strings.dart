@@ -50,5 +50,9 @@ class Strings {
   static const String incorrectEmailOrPassword = "Incorrect email or password";
   static const String addNewReminder = "Add new reminder";
   static const String addReminder = "Add reminder";
+  static const String reminderTimeRequired = "You must enter the reminder time";
+  static const String reminderTitleRequired = "You must enter the reminder title";
+  static const String optional = "Optional";
+  static const String anAccountWithThisEmailAlreadyExists = "An account with this email already exists";
 
 }

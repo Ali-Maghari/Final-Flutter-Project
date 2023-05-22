@@ -151,14 +151,24 @@ class RegisterScreen extends StatelessWidget {
                             user.id = await Db.getDatabaseHelper()
                                 .getUserDataHelper()
                                 .insertUser(user);
+                            if (user.id == -1) {
+                              if (context.mounted) {
+                                Utils.getUtils().showSnackBar(
+                                    context: context,
+                                    message: Strings
+                                        .anAccountWithThisEmailAlreadyExists,
+                                    animation: Animations.sadThree);
+                              }
+                              return;
+                            }
                             provider.userManager.setCurrentUser(user);
                             provider.userManager.login();
                             // clear all previous stack and push home screen
-                            if(context.mounted) {
+                            if (context.mounted) {
                               Navigator.of(context).pushAndRemoveUntil(
                                   MaterialPageRoute(
                                       builder: (context) => MainScreen()),
-                                      (route) => false);
+                                  (route) => false);
                             }
                           }
                         }),
