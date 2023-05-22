@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:my_teeth/controller/state_manager.dart';
 import 'package:my_teeth/view/widgets/reminders/add_or_edit_reminder.dart';
-import '../../../../constants/constants.dart';
+import 'package:my_teeth/view/widgets/reminders/empty_reminder_widget.dart';
+import 'package:provider/provider.dart';
 import '../../../../constants/strings.dart';
 import '../../../../utils/utils.dart';
-import '../../widgets/material_filled_button.dart';
-import '../../widgets/material_input.dart';
+import '../../../model/reminder/reminder.dart';
 import '../../widgets/reminders/reminder_widget.dart';
 
 class Reminders extends StatelessWidget {
-  Reminders({super.key});
-
-  final TextEditingController _timeController = TextEditingController();
+  const Reminders({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -45,31 +44,29 @@ class Reminders extends StatelessWidget {
             children: [
               SizedBox(
                 width: double.infinity,
-                child: Wrap(
-                  alignment: WrapAlignment.center,
-                  spacing: 16,
-                  runSpacing: 16,
-                  children: const [
-                    Reminder(),
-                    Reminder(),
-                    Reminder(),
-                    Reminder(),
-                    Reminder(),
-                    Reminder(),
-                    Reminder(),
-                    Reminder(),
-                    Reminder(),
-                    Reminder(),
-                    Reminder(),
-                    Reminder(),
-                    Reminder(),
-                    Reminder(),
-                    Reminder(),
-                    Reminder(),
-                    Reminder(),
-                    Reminder(),
-                  ],
-                ),
+                child: FutureBuilder<List<Reminder>>(
+                    future: getUserReminders(context),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<List<Reminder>> snapshot) {
+                      return snapshot.data == null || snapshot.data!.isEmpty
+                          ? const EmptyReminderWidget()
+                          : Wrap(
+                              alignment: WrapAlignment.center,
+                              spacing: 16,
+                              runSpacing: 16,
+                              children: snapshot.data!.map((reminder) {
+                                return ReminderItem(reminder: reminder, onAvatarPressed: (){
+                                  showModalBottomSheet<void>(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return const AddOrEditReminder();
+                                    },
+                                  );
+                                },
+                                );
+                              }).toList(),
+                            );
+                    }),
               ),
             ],
           )),
@@ -88,5 +85,9 @@ class Reminders extends StatelessWidget {
           },
           label: const Text(Strings.addNewReminder)),
     );
+  }
+
+  Future<List<Reminder>> getUserReminders(BuildContext context) async {
+    return await Provider.of<StateManager>(context).getUserReminders();
   }
 }

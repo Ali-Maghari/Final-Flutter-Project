@@ -1,22 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:my_teeth/model/reminder/reminder.dart';
 
-class Reminder extends StatelessWidget {
+class ReminderItem extends StatelessWidget {
   final Function()? onPressed;
+  final Function()? onAvatarPressed;
+  final Reminder reminder;
 
-  const Reminder({super.key, this.onPressed});
+  const ReminderItem({super.key, required this.reminder, this.onPressed, this.onAvatarPressed});
 
   @override
   Widget build(BuildContext context) {
     return ActionChip(
-      avatar: const Icon(Icons.favorite_border),
-      label: const Text('Save'),
+      avatar: GestureDetector(
+        onTap: () {
+          onAvatarPressed?.call();
+        },
+        child: const Icon(Icons.edit_outlined)
+      ),
+      label: Text(DateFormat('hh:mm a')
+          .format(DateTime.fromMillisecondsSinceEpoch(reminder.time!))),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
           Radius.circular(10),
         ),
       ),
       onPressed: () {
-
+        onPressed?.call();
       },
     );
   }

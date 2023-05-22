@@ -90,7 +90,7 @@ class MainScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => Reminders()));
+                        MaterialPageRoute(builder: (context) => const Reminders()));
                   },
                   label: const Text(Strings.customizeReminders))
               : const SizedBox(),

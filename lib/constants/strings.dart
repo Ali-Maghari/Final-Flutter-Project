@@ -54,5 +54,6 @@ class Strings {
   static const String reminderTitleRequired = "You must enter the reminder title";
   static const String optional = "Optional";
   static const String anAccountWithThisEmailAlreadyExists = "An account with this email already exists";
+  static const String reminderAlreadyExists = "A reminder with this time already exists";
 
 }

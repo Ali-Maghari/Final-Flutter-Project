@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:my_teeth/constants/strings.dart';
-
+import 'package:my_teeth/model/database/db.dart';
+import '../model/reminder/reminder.dart';
+import '../model/user/user.dart';
 import '../model/user/user_manager.dart';
 
 class StateManager with ChangeNotifier {
@@ -17,13 +18,13 @@ class StateManager with ChangeNotifier {
   bool passwordInLoginObscureTextState = true;
   bool passwordInRegisterObscureTextState = true;
   int currentIntroPage = 0;
-  String title = Strings.home;
   int currentMainPage = 0;
   bool isFloatingActionButtonExtended = true;
   bool isFloatingActionButtonVisible = true;
   TextEditingController timeControllerInAddOrEditReminderBottomSheet = TextEditingController();
   TextEditingController titleControllerInAddOrEditReminderBottomSheet = TextEditingController();
   TextEditingController descriptionControllerInAddOrEditReminderBottomSheet = TextEditingController();
+  List<Reminder> _arrReminders = [];
 
   void setPasswordInLoginObscureTextState(bool isObscureText) {
     passwordInLoginObscureTextState = isObscureText;
@@ -40,11 +41,6 @@ class StateManager with ChangeNotifier {
     notifyListeners();
   }
 
-  void setTitle(String title) {
-    this.title = title;
-    notifyListeners();
-  }
-
   void setCurrentMainPage(int page) {
     currentMainPage = page;
     notifyListeners();
@@ -57,6 +53,20 @@ class StateManager with ChangeNotifier {
 
   void setIsFloatingActionButtonVisible(bool isVisible) {
     isFloatingActionButtonVisible = isVisible;
+    notifyListeners();
+  }
+
+  Future<List<Reminder>> getUserReminders() async {
+    User? currentUser = await userManager.getCurrentUser();
+    _arrReminders = await Db.getDatabaseHelper()
+        .getReminderDataHelper()
+        .getRemindersByUserId(currentUser!.id);
+    return _arrReminders;
+  }
+
+  void addReminder(Reminder reminder) async {
+    await Db.getDatabaseHelper().getReminderDataHelper().insertReminder(reminder);
+    _arrReminders.add(reminder);
     notifyListeners();
   }
 
