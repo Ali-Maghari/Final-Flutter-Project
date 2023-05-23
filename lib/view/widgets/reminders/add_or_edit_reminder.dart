@@ -76,18 +76,12 @@ class AddOrEditReminder extends StatelessWidget {
                       style:
                           const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                   onPressed: () async {
-                    provider.addOrEditReminderFormKey.currentState!.validate();
-                    if (provider.addOrEditReminderFormKey.currentState!
-                        .validate()) {
-                      Reminder reminder = Reminder(
-                        title: provider.titleControllerInAddOrEditReminderBottomSheet.text,
-                        time: DateFormat("hh:mm a").parse(provider.timeControllerInAddOrEditReminderBottomSheet.text).millisecondsSinceEpoch,
-                        description: provider.descriptionControllerInAddOrEditReminderBottomSheet.text);
+                    if (provider.addOrEditReminderFormKey.currentState!.validate()) {
                       if (editedReminder == null) {
-                        provider.addReminder(context, reminder);
+                        await provider.addReminder(context);
                       }
                       else {
-                        provider.updateReminder(context, editedReminder!, reminder);
+                        await provider.updateReminder(context, editedReminder!);
                       }
                     }
                   }),

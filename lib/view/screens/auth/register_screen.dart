@@ -70,6 +70,7 @@ class RegisterScreen extends StatelessWidget {
                         height: Margins.inputsMarginWhenErrorNotEnabled),
                     MaterialInput(const Text(Strings.email),
                         controller: provider.emailInRegisterController,
+                        keyboardType: TextInputType.emailAddress,
                         prefixIcon: Icon(Icons.email,
                             color: Theme.of(context).colorScheme.primary),
                         validator: (text) {
@@ -136,40 +137,8 @@ class RegisterScreen extends StatelessWidget {
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold)),
                         onPressed: () async {
-                          provider.registerFormKey.currentState!.validate();
-                          if (provider.registerFormKey.currentState!
-                              .validate()) {
-                            User user = User(
-                              name: provider.nameInRegisterController.text,
-                              email: provider.emailInRegisterController.text,
-                              password:
-                                  provider.passwordInRegisterController.text,
-                              birthdate: DateTime.parse(provider
-                                      .birthdateInRegisterController.text)
-                                  .millisecondsSinceEpoch,
-                            );
-                            user.id = await Db.getDatabaseHelper()
-                                .getUserDataHelper()
-                                .insertUser(user);
-                            if (user.id == -1) {
-                              if (context.mounted) {
-                                Utils.getUtils().showSnackBar(
-                                    context: context,
-                                    message: Strings
-                                        .anAccountWithThisEmailAlreadyExists,
-                                    animation: Animations.sadThree);
-                              }
-                              return;
-                            }
-                            provider.userManager.setCurrentUser(user);
-                            provider.userManager.login();
-                            // clear all previous stack and push home screen
-                            if (context.mounted) {
-                              Navigator.of(context).pushAndRemoveUntil(
-                                  MaterialPageRoute(
-                                      builder: (context) => MainScreen()),
-                                  (route) => false);
-                            }
+                          if (provider.registerFormKey.currentState!.validate()) {
+                            await provider.register(context);
                           }
                         }),
                     const SizedBox(height: 6),

@@ -69,4 +69,5 @@ class Strings {
   static const String mainAppTheme = "Main app theme";
   static const String dynamicAppTheme = "Dynamic theme";
   static const String applyTheme = "Apply theme";
+  static const String profileUpdatedSuccessfully = "Your profile has been updated successfully";
 }

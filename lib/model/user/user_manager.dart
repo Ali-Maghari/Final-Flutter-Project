@@ -24,7 +24,6 @@ class UserManager {
 
   void setCurrentUser(User user) {
     _user = user;
-    Db.getDatabaseHelper().getUserDataHelper().updateUser(user);
   }
 
   void removeCurrentUser() {

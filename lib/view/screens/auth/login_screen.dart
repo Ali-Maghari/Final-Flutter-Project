@@ -81,6 +81,7 @@ class LoginScreen extends StatelessWidget {
                     const SizedBox(height: 36),
                     MaterialInput(const Text(Strings.email),
                         controller: provider.emailInLoginController,
+                        keyboardType: TextInputType.emailAddress,
                         prefixIcon: Icon(Icons.email,
                             color: Theme
                                 .of(context)
@@ -147,31 +148,8 @@ class LoginScreen extends StatelessWidget {
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold)),
                         onPressed: () async {
-                          provider.loginFormKey.currentState!.validate();
                           if (provider.loginFormKey.currentState!.validate()) {
-                            User? user = await Db.getDatabaseHelper()
-                                .getUserDataHelper()
-                                .getUserByEmailAndPassword(
-                              email: provider.emailInLoginController.text,
-                              password: provider.passwordInLoginController.text,
-                            );
-                            if (user == null) {
-                              if (context.mounted) {
-                                Utils.getUtils().showSnackBar(context: context,
-                                    message: Strings.incorrectEmailOrPassword,
-                                    animation: Animations.sadThree);
-                              }
-                              return;
-                            }
-                            provider.userManager.setCurrentUser(user);
-                            provider.userManager.login();
-                            if (context.mounted) {
-                              SharedUtils.getSharedUtils().setBool(
-                                  SharedPreferencesKeys.isUserLoggedIn, true);
-                              Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(
-                                      builder: (context) => MainScreen()));
-                            }
+                            await provider.login(context);
                           }
                         }),
                     const SizedBox(height: 6),

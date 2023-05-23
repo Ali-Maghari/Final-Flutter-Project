@@ -13,6 +13,7 @@ class MaterialInput extends StatelessWidget {
   final AutovalidateMode? autoValidateMode = AutovalidateMode.onUserInteraction;
   final void Function()? onTap;
   final String? helperText;
+  final TextInputType? keyboardType;
 
   const MaterialInput(this.label,
       {super.key,
@@ -25,7 +26,8 @@ class MaterialInput extends StatelessWidget {
       this.controller,
       this.validator,
       this.onTap,
-      this.helperText});
+      this.helperText,
+      this.keyboardType});
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +38,7 @@ class MaterialInput extends StatelessWidget {
       validator: validator,
       controller: controller,
       onTap: onTap,
+      keyboardType: keyboardType,
       decoration: InputDecoration(
           isDense: true,
           enabled: isEnabled,

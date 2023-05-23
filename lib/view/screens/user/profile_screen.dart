@@ -9,9 +9,7 @@ import '../../widgets/material_filled_button.dart';
 import '../../widgets/material_input.dart';
 
 class ProfileScreen extends StatelessWidget {
-  ProfileScreen({super.key});
-
-  final TextEditingController _birthdateController = TextEditingController();
+  const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -39,96 +37,138 @@ class ProfileScreen extends StatelessWidget {
           },
         ),
       ),
-      body: Container(
+      body: Consumer<StateManager>(builder: (context, provider, child) {
+        return Container(
           color: Theme.of(context).colorScheme.surface,
           child: Center(
-            child: ListView(
-              padding: const EdgeInsets.all(16),
-              shrinkWrap: true,
-              children: [
-                const SizedBox(height: 20),
-                InkWell(
-                  onTap: () {},
-                  splashColor: Theme.of(context).colorScheme.secondary,
-                  child: CircleAvatar(
-                    radius: 50,
-                    backgroundColor: Theme.of(context).colorScheme.secondary,
-                    child: Icon(
-                      Icons.person_outline,
-                      color: Theme.of(context).colorScheme.onSecondary,
-                      size: 50,
+            child: Form(
+              key: provider.profileFormKey,
+              child: ListView(
+                padding: const EdgeInsets.all(16),
+                shrinkWrap: true,
+                children: [
+                  const SizedBox(height: 20),
+                  InkWell(
+                    onTap: () {},
+                    splashColor: Theme.of(context).colorScheme.secondary,
+                    child: CircleAvatar(
+                      radius: 50,
+                      backgroundColor: Theme.of(context).colorScheme.secondary,
+                      child: Icon(
+                        Icons.person_outline,
+                        color: Theme.of(context).colorScheme.onSecondary,
+                        size: 50,
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 60),
-                MaterialInput(const Text(Strings.name),
-                    prefixIcon: Icon(Icons.person,
-                        color: Theme.of(context).colorScheme.primary)),
-                const SizedBox(height: Margins.inputsMarginWhenErrorNotEnabled),
-                MaterialInput(const Text(Strings.email),
-                    prefixIcon: Icon(Icons.email,
-                        color: Theme.of(context).colorScheme.primary)),
-                const SizedBox(height: Margins.inputsMarginWhenErrorNotEnabled),
-                MaterialInput(
-                  const Text(Strings.password),
-                  isObscureText: Provider.of<StateManager>(context)
-                      .passwordInLoginObscureTextState,
-                  prefixIcon: Icon(Icons.lock,
-                      color: Theme.of(context).colorScheme.primary),
-                  suffixIcon: (isObscureText) {
-                    return IconButton(
-                      icon: Icon(
-                          isObscureText
-                              ? Icons.visibility
-                              : Icons.visibility_off,
+                  const SizedBox(height: 60),
+                  MaterialInput(const Text(Strings.name),
+                      controller: provider.nameInProfileController,
+                      prefixIcon: Icon(Icons.person,
                           color: Theme.of(context).colorScheme.primary),
-                      onPressed: () {
-                        Provider.of<StateManager>(context, listen: false)
-                            .setPasswordInLoginObscureTextState(!isObscureText);
+                      validator: (text) {
+                        if (text == null || text.isEmpty) {
+                          return Strings.nameIsRequired;
+                        }
+                        return null;
+                      }),
+                  const SizedBox(
+                      height: Margins.inputsMarginWhenErrorNotEnabled),
+                  MaterialInput(const Text(Strings.email),
+                      controller: provider.emailInProfileController,
+                      keyboardType: TextInputType.emailAddress,
+                      prefixIcon: Icon(Icons.email,
+                          color: Theme.of(context).colorScheme.primary),
+                      validator: (text) {
+                        if (text == null || text.isEmpty) {
+                          return Strings.emailIsRequired;
+                        } else if (!Utils.getUtils().isValidEmail(text)) {
+                          return Strings.emailIsInvalid;
+                        }
+                        return null;
+                      }),
+                  const SizedBox(
+                      height: Margins.inputsMarginWhenErrorNotEnabled),
+                  MaterialInput(const Text(Strings.password),
+                      controller: provider.passwordInProfileController,
+                      isObscureText:
+                      provider.passwordInProfileObscureTextState,
+                      prefixIcon: Icon(Icons.lock,
+                          color: Theme.of(context).colorScheme.primary),
+                      suffixIcon: (isObscureText) {
+                        return IconButton(
+                          icon: Icon(
+                              isObscureText
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                              color: Theme.of(context).colorScheme.primary),
+                          onPressed: () {
+                            Provider.of<StateManager>(context, listen: false)
+                                .setPasswordInProfileObscureTextState(
+                                !isObscureText);
+                          },
+                        );
+                      }, validator: (text) {
+                        if (text == null || text.isEmpty) {
+                          return Strings.passwordIsRequired;
+                        } else if (Utils.getUtils().isValidPassword(text)) {
+                          return Strings.passwordIsInvalid;
+                        }
+                        return null;
+                      }),
+                  const SizedBox(
+                      height: Margins.inputsMarginWhenErrorNotEnabled),
+                  MaterialInput(const Text(Strings.birthdate),
+                      controller: provider.birthdateInProfileController,
+                      prefixIcon: IconButton(
+                        icon: Icon(Icons.calendar_month,
+                            color: Theme.of(context).colorScheme.primary),
+                        onPressed: () {
+                          _showDataPicker(context, provider);
+                        },
+                      ),
+                      onTap: () {
+                        _showDataPicker(context, provider);
                       },
-                    );
-                  },
-                ),
-                const SizedBox(height: Margins.inputsMarginWhenErrorNotEnabled),
-                MaterialInput(
-                  const Text(Strings.birthdate),
-                  controller: _birthdateController,
-                  prefixIcon: IconButton(
-                    icon: Icon(Icons.calendar_month,
-                        color: Theme.of(context).colorScheme.primary),
-                    onPressed: () {
-                      // show a date picker
-                      _showDataPicker(context);
-                    },
-                  ),
-                  isReadOnly: true,
-                ),
-                const SizedBox(height: 40),
-                MaterialFilledButton(
-                    child: const Text(Strings.editProfile,
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold)),
-                    onPressed: () {
-
-                    }),
-                const SizedBox(height: 20),
-              ],
+                      isReadOnly: true,
+                      validator: (text) {
+                        if (text == null || text.isEmpty) {
+                          return Strings.birthdateIsRequired;
+                        }
+                        return null;
+                      }),
+                  const SizedBox(height: 40),
+                  MaterialFilledButton(
+                      child: const Text(Strings.editProfile,
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold)),
+                      onPressed: () async {
+                        if (provider.profileFormKey.currentState!.validate()) {
+                          await provider.updateProfile(context);
+                        }
+                      }),
+                  const SizedBox(height: 20),
+                ],
+              ),
             ),
-          )),
+          ),
+        );
+      }),
     );
   }
 
-  void _showDataPicker(BuildContext context) {
+  void _showDataPicker(BuildContext context, StateManager provider) {
     showDatePicker(
-            context: context,
-            initialDate: _birthdateController.text.isEmpty
-                ? DateTime.now()
-                : DateTime.parse(_birthdateController.text),
-            firstDate: DateTime(1900),
-            lastDate: DateTime.now())
+        context: context,
+        initialDate: provider.birthdateInProfileController.text.isEmpty
+            ? DateTime.now()
+            : DateTime.parse(provider.birthdateInProfileController.text),
+        firstDate: DateTime(1900),
+        lastDate: DateTime.now())
         .then((value) {
       if (value != null) {
-        _birthdateController.text = DateFormat('yyyy-MM-dd').format(value);
+        provider.birthdateInProfileController.text =
+            DateFormat('yyyy-MM-dd').format(value);
       }
     });
   }
