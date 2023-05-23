@@ -13,7 +13,7 @@ class NotificationWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
         children: [
-          notification.type == NotificationTypes.reminder
+          notification.type == NotificationType.reminder
               ? CircleAvatar(
                   radius: 20,
                   backgroundColor: Theme.of(context).colorScheme.primary,

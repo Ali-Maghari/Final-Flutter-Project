@@ -61,4 +61,12 @@ class Strings {
   static const String deleteReminder = "Delete reminder";
   static const String reminderDeletedSuccessfully = "Reminder deleted successfully";
   static const String anErrorOccurredWhileDeletingTheReminder = "An error occurred while deleting the reminder";
+  static const String appTheme = "App theme";
+  static const String light = "Light";
+  static const String dark = "Dark";
+  static const String followSystem = "Follow system";
+  static const String appThemeMode = "App theme mode";
+  static const String mainAppTheme = "Main app theme";
+  static const String dynamicAppTheme = "Dynamic theme";
+  static const String applyTheme = "Apply theme";
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_teeth/model/database/db.dart';
+import 'package:my_teeth/model/shared_preferences/shared_utils.dart';
 import '../constants/constants.dart';
 import '../constants/strings.dart';
 import '../model/reminder/reminder.dart';
@@ -28,6 +29,10 @@ class StateManager with ChangeNotifier {
   TextEditingController titleControllerInAddOrEditReminderBottomSheet = TextEditingController();
   TextEditingController descriptionControllerInAddOrEditReminderBottomSheet = TextEditingController();
   List<Reminder> _arrReminders = [];
+  String appTheme = SharedUtils.getSharedUtils().getString(SharedPreferencesKeys.appTheme) ?? AppTheme.dynamicAppTheme;
+  String appThemeMode = SharedUtils.getSharedUtils().getString(SharedPreferencesKeys.appThemeMode) ?? AppThemeMode.followSystem;
+  String appThemeInThemesScreen = SharedUtils.getSharedUtils().getString(SharedPreferencesKeys.appTheme) ?? AppTheme.dynamicAppTheme;
+  String appThemeModeInThemesScreen = SharedUtils.getSharedUtils().getString(SharedPreferencesKeys.appThemeMode) ?? AppThemeMode.followSystem;
 
   void setPasswordInLoginObscureTextState(bool isObscureText) {
     passwordInLoginObscureTextState = isObscureText;
@@ -138,6 +143,30 @@ class StateManager with ChangeNotifier {
           message: Strings.reminderDeletedSuccessfully,
           duration: 1400);
     }
+    notifyListeners();
+  }
+
+  void setAppTheme(String theme) {
+    appThemeInThemesScreen = theme;
+    notifyListeners();
+  }
+
+  void setAppThemeMode(String themeMode) {
+    appThemeModeInThemesScreen = themeMode;
+    notifyListeners();
+  }
+
+  void resetAppTheme() {
+    appThemeInThemesScreen = appTheme;
+    appThemeModeInThemesScreen = appThemeMode;
+    notifyListeners();
+  }
+
+  void applyTheme() {
+    appTheme = appThemeInThemesScreen;
+    appThemeMode = appThemeModeInThemesScreen;
+    SharedUtils.getSharedUtils().setString(SharedPreferencesKeys.appTheme, appTheme);
+    SharedUtils.getSharedUtils().setString(SharedPreferencesKeys.appThemeMode, appThemeMode);
     notifyListeners();
   }
 
