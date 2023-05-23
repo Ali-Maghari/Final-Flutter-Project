@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:my_teeth/controller/state_manager.dart';
 import 'package:my_teeth/model/reminder/reminder.dart';
-import 'package:my_teeth/model/user/user.dart';
-import 'package:my_teeth/utils/utils.dart';
 import 'package:provider/provider.dart';
 import '../../../constants/constants.dart';
 import '../../../constants/strings.dart';
-import '../../../model/database/db.dart';
 import '../material_filled_button.dart';
 import '../material_input.dart';
 
 class AddOrEditReminder extends StatelessWidget {
-  const AddOrEditReminder({super.key});
+
+  final Reminder? editedReminder;
+
+  const AddOrEditReminder({super.key, this.editedReminder});
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +25,11 @@ class AddOrEditReminder extends StatelessWidget {
             shrinkWrap: true,
             children: [
               const SizedBox(height: 20),
+              Center(
+                child: Text(editedReminder == null ? Strings.addNewReminder : Strings.editReminder,
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Theme.of(context).colorScheme.primary)),
+              ),
+              const SizedBox(height: 40),
               MaterialInput(const Text(Strings.title),
                   controller:
                       provider.titleControllerInAddOrEditReminderBottomSheet,
@@ -67,47 +72,22 @@ class AddOrEditReminder extends StatelessWidget {
                       color: Theme.of(context).colorScheme.primary)),
               const SizedBox(height: 40),
               MaterialFilledButton(
-                  child: const Text(Strings.addReminder,
+                  child: Text(editedReminder == null ? Strings.addReminder : Strings.editReminder,
                       style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                          const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                   onPressed: () async {
                     provider.addOrEditReminderFormKey.currentState!.validate();
                     if (provider.addOrEditReminderFormKey.currentState!
                         .validate()) {
                       Reminder reminder = Reminder(
-                        title: provider
-                            .titleControllerInAddOrEditReminderBottomSheet.text,
-                        time: DateFormat("hh:mm a").parse(provider
-                            .timeControllerInAddOrEditReminderBottomSheet
-                            .text)
-                            .millisecondsSinceEpoch,
-                        description: provider
-                            .descriptionControllerInAddOrEditReminderBottomSheet
-                            .text,
-                      );
-                      User? currentUser =
-                          await provider.userManager.getCurrentUser();
-                      reminder.userId = currentUser!.id;
-                      reminder.id = await Db.getDatabaseHelper()
-                          .getReminderDataHelper()
-                          .insertReminder(reminder);
-                      if (reminder.id == -1) {
-                        if (context.mounted) {
-                          Utils.getUtils().showSnackBar(
-                              context: context,
-                              message: Strings.reminderAlreadyExists,
-                              animation: Animations.sadThree);
-                          Navigator.of(context).pop();
-                        }
-                        return;
+                        title: provider.titleControllerInAddOrEditReminderBottomSheet.text,
+                        time: DateFormat("hh:mm a").parse(provider.timeControllerInAddOrEditReminderBottomSheet.text).millisecondsSinceEpoch,
+                        description: provider.descriptionControllerInAddOrEditReminderBottomSheet.text);
+                      if (editedReminder == null) {
+                        provider.addReminder(context, reminder);
                       }
-                      provider.addReminder(reminder);
-                      if (context.mounted) {
-                        Navigator.of(context).pop();
-                        Utils.getUtils().showSnackBar(
-                            context: context,
-                            message: Strings.reminderAddedSuccessfully,
-                            duration: 1400);
+                      else {
+                        provider.updateReminder(context, editedReminder!, reminder);
                       }
                     }
                   }),

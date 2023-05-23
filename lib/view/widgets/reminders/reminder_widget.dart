@@ -16,7 +16,7 @@ class ReminderItem extends StatelessWidget {
         ActionChip(
           avatar : const SizedBox.shrink(),
           label: Text(DateFormat('hh:mm a')
-              .format(DateTime.fromMillisecondsSinceEpoch(reminder.time!))),
+              .format(DateTime.fromMillisecondsSinceEpoch(reminder.time ?? 0))),
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(10),

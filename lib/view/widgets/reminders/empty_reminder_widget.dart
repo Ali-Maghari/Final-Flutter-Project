@@ -20,7 +20,7 @@ class EmptyReminderWidget extends StatelessWidget {
           fit: BoxFit.contain,
         ),
         const SizedBox(height: 20, width: double.infinity,),
-        const Text(Strings.noNotificationsFounded,
+        const Text(Strings.noRemindersFounded,
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,

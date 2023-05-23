@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:my_teeth/controller/state_manager.dart';
 import 'package:my_teeth/view/widgets/reminders/add_or_edit_reminder.dart';
 import 'package:my_teeth/view/widgets/reminders/empty_reminder_widget.dart';
+import 'package:my_teeth/view/widgets/reminders/reminder_details.dart';
 import 'package:provider/provider.dart';
 import '../../../../constants/strings.dart';
 import '../../../../utils/utils.dart';
@@ -37,46 +39,60 @@ class Reminders extends StatelessWidget {
           },
         ),
       ),
-      body: Container(
+      body:
+    Consumer<StateManager>(builder: (context, provider, child) {
+      return Container(
           color: Theme.of(context).colorScheme.surface,
           child: FutureBuilder<List<Reminder>>(
-              future: getUserReminders(context),
+              future: getUserReminders(context, provider),
               builder: (BuildContext context,
                   AsyncSnapshot<List<Reminder>> snapshot) {
                 return snapshot.data == null || snapshot.data!.isEmpty
                     ? Container(
-                        alignment: Alignment.center,
-                        child: ListView(
-                          shrinkWrap: true,
-                          children: const [
-                            EmptyReminderWidget(),
-                          ],
-                        ),
-                      )
+                  alignment: Alignment.center,
+                  child: ListView(
+                    shrinkWrap: true,
+                    children: const [
+                      EmptyReminderWidget(),
+                    ],
+                  ),
+                )
                     : ListView(
-                        padding: const EdgeInsets.all(8),
-                        children: [
-                          Wrap(
-                            alignment: WrapAlignment.center,
-                            spacing: 16,
-                            runSpacing: 16,
-                            children: snapshot.data!.map((reminder) {
-                              return ReminderItem(
-                                reminder: reminder,
-                                onAvatarPressed: () {
-                                  showModalBottomSheet<void>(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return const AddOrEditReminder();
-                                    },
-                                  );
-                                },
-                              );
-                            }).toList(),
-                          ),
-                        ],
-                      );
-              })),
+                  padding: const EdgeInsets.all(8),
+                  children: [
+                    Wrap(
+                      alignment: WrapAlignment.center,
+                      spacing: 16,
+                      runSpacing: 16,
+                      children: snapshot.data!.map((reminder) {
+                        return ReminderItem(
+                          reminder: reminder,
+                          onPressed: () {
+                            showModalBottomSheet<void>(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return ReminderDetails(reminder: reminder);
+                              },
+                            );
+                          },
+                          onAvatarPressed: () {
+                            provider.titleControllerInAddOrEditReminderBottomSheet.text = reminder.title ?? '';
+                            provider.timeControllerInAddOrEditReminderBottomSheet.text = DateFormat('hh:mm a').format(DateTime.fromMillisecondsSinceEpoch(reminder.time ?? 0));
+                            provider.descriptionControllerInAddOrEditReminderBottomSheet.text = reminder.description ?? '';
+                            showModalBottomSheet<void>(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AddOrEditReminder(editedReminder: reminder);
+                              },
+                            );
+                          },
+                        );
+                      }).toList(),
+                    ),
+                  ],
+                );
+              }));
+    }),
       floatingActionButton: FloatingActionButton.extended(
           isExtended: true,
           tooltip: Strings.addNewReminder,
@@ -94,7 +110,7 @@ class Reminders extends StatelessWidget {
     );
   }
 
-  Future<List<Reminder>> getUserReminders(BuildContext context) async {
-    return await Provider.of<StateManager>(context).getUserReminders();
+  Future<List<Reminder>> getUserReminders(BuildContext context, StateManager provider) async {
+    return await provider.getUserReminders();
   }
 }

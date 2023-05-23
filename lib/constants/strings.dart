@@ -55,5 +55,10 @@ class Strings {
   static const String optional = "Optional";
   static const String anAccountWithThisEmailAlreadyExists = "An account with this email already exists";
   static const String reminderAlreadyExists = "A reminder with this time already exists";
-
+  static const String editReminder = "Edit reminder";
+  static const String reminderUpdatedSuccessfully = "Reminder updated successfully";
+  static const String reminderDetails = "Reminder details";
+  static const String deleteReminder = "Delete reminder";
+  static const String reminderDeletedSuccessfully = "Reminder deleted successfully";
+  static const String anErrorOccurredWhileDeletingTheReminder = "An error occurred while deleting the reminder";
 }

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:my_teeth/model/database/db.dart';
+import '../constants/constants.dart';
+import '../constants/strings.dart';
 import '../model/reminder/reminder.dart';
 import '../model/user/user.dart';
 import '../model/user/user_manager.dart';
+import '../utils/utils.dart';
 
 class StateManager with ChangeNotifier {
   final UserManager userManager = UserManager.getUserManager();
@@ -64,9 +67,77 @@ class StateManager with ChangeNotifier {
     return _arrReminders;
   }
 
-  void addReminder(Reminder reminder) async {
-    await Db.getDatabaseHelper().getReminderDataHelper().insertReminder(reminder);
+  void addReminder(BuildContext context, Reminder reminder) async {
+    User? currentUser = await userManager.getCurrentUser();
+    reminder.userId = currentUser!.id;
+    reminder.id = await Db.getDatabaseHelper().getReminderDataHelper().insertReminder(reminder);
+    if (reminder.id == -1) {
+      if (context.mounted) {
+        Utils.getUtils().showSnackBar(
+            context: context,
+            message: Strings.reminderAlreadyExists,
+            animation: Animations.sadThree);
+        Navigator.of(context).pop();
+      }
+      return;
+    }
     _arrReminders.add(reminder);
+    if (context.mounted) {
+      Navigator.of(context).pop();
+      Utils.getUtils().showSnackBar(
+          context: context,
+          message: Strings.reminderAddedSuccessfully,
+          duration: 1400);
+    }
+    notifyListeners();
+  }
+
+  void updateReminder(BuildContext context, Reminder editedReminder, Reminder reminder) async {
+    User? currentUser = await userManager.getCurrentUser();
+    reminder.userId = currentUser!.id;
+    reminder.id = editedReminder.id;
+    bool isUpdated = await Db.getDatabaseHelper().getReminderDataHelper().updateReminder(reminder);
+    if (!isUpdated) {
+      if (context.mounted) {
+        Utils.getUtils().showSnackBar(
+            context: context,
+            message: Strings.reminderAlreadyExists,
+            duration: 1400);
+        Navigator.of(context).pop();
+      }
+      return;
+    }
+    _arrReminders[_arrReminders.indexWhere((element) => element.id == reminder.id)] = reminder;
+    if (context.mounted) {
+      Navigator.of(context).pop();
+      Utils.getUtils().showSnackBar(
+          context: context,
+          message: Strings.reminderUpdatedSuccessfully,
+          duration: 1400);
+    }
+    notifyListeners();
+  }
+
+  Future<void> deleteReminder(BuildContext context, Reminder reminder) async {
+    bool isDeleted = await Db.getDatabaseHelper().getReminderDataHelper().deleteReminder(reminder.id);
+    if (!isDeleted) {
+      if (context.mounted) {
+        Navigator.pop(context);
+        Utils.getUtils().showSnackBar(
+            context: context,
+            message: Strings.anErrorOccurredWhileDeletingTheReminder,
+            duration: 1400);
+      }
+      return;
+    }
+    if (context.mounted) {
+      _arrReminders.removeWhere((element) => element.id == reminder.id);
+      Navigator.pop(context);
+      Utils.getUtils().showSnackBar(
+          context: context,
+          message: Strings.reminderDeletedSuccessfully,
+          duration: 1400);
+    }
     notifyListeners();
   }
 
