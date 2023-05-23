@@ -11,23 +11,33 @@ class ReminderItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ActionChip(
-      avatar: GestureDetector(
-        onTap: () {
-          onAvatarPressed?.call();
-        },
-        child: const Icon(Icons.edit_outlined)
-      ),
-      label: Text(DateFormat('hh:mm a')
-          .format(DateTime.fromMillisecondsSinceEpoch(reminder.time!))),
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(10),
+    return Stack(
+      children: [
+        ActionChip(
+          avatar : const SizedBox.shrink(),
+          label: Text(DateFormat('hh:mm a')
+              .format(DateTime.fromMillisecondsSinceEpoch(reminder.time!))),
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(10),
+            ),
+          ),
+          onPressed: () {
+            onPressed?.call();
+          },
         ),
-      ),
-      onPressed: () {
-        onPressed?.call();
-      },
+        Positioned(
+          top: 8,
+          left: 8,
+          bottom: 8,
+          child: GestureDetector(
+              onTap: () {
+                onAvatarPressed?.call();
+              },
+              child: Icon(Icons.edit_outlined, size: 18, color: Theme.of(context).colorScheme.primary)
+          ),
+        ),
+      ],
     );
   }
 }

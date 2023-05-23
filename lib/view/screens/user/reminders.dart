@@ -39,23 +39,31 @@ class Reminders extends StatelessWidget {
       ),
       body: Container(
           color: Theme.of(context).colorScheme.surface,
-          child: ListView(
-            padding: const EdgeInsets.all(8),
-            children: [
-              SizedBox(
-                width: double.infinity,
-                child: FutureBuilder<List<Reminder>>(
-                    future: getUserReminders(context),
-                    builder: (BuildContext context,
-                        AsyncSnapshot<List<Reminder>> snapshot) {
-                      return snapshot.data == null || snapshot.data!.isEmpty
-                          ? const EmptyReminderWidget()
-                          : Wrap(
-                              alignment: WrapAlignment.center,
-                              spacing: 16,
-                              runSpacing: 16,
-                              children: snapshot.data!.map((reminder) {
-                                return ReminderItem(reminder: reminder, onAvatarPressed: (){
+          child: FutureBuilder<List<Reminder>>(
+              future: getUserReminders(context),
+              builder: (BuildContext context,
+                  AsyncSnapshot<List<Reminder>> snapshot) {
+                return snapshot.data == null || snapshot.data!.isEmpty
+                    ? Container(
+                        alignment: Alignment.center,
+                        child: ListView(
+                          shrinkWrap: true,
+                          children: const [
+                            EmptyReminderWidget(),
+                          ],
+                        ),
+                      )
+                    : ListView(
+                        padding: const EdgeInsets.all(8),
+                        children: [
+                          Wrap(
+                            alignment: WrapAlignment.center,
+                            spacing: 16,
+                            runSpacing: 16,
+                            children: snapshot.data!.map((reminder) {
+                              return ReminderItem(
+                                reminder: reminder,
+                                onAvatarPressed: () {
                                   showModalBottomSheet<void>(
                                     context: context,
                                     builder: (BuildContext context) {
@@ -63,13 +71,12 @@ class Reminders extends StatelessWidget {
                                     },
                                   );
                                 },
-                                );
-                              }).toList(),
-                            );
-                    }),
-              ),
-            ],
-          )),
+                              );
+                            }).toList(),
+                          ),
+                        ],
+                      );
+              })),
       floatingActionButton: FloatingActionButton.extended(
           isExtended: true,
           tooltip: Strings.addNewReminder,
