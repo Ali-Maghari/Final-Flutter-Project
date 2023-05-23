@@ -8,22 +8,29 @@ class EmptyNotificationWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Lottie.asset(
-          Animations.sadTwo,
-          width: 200,
-          height: 200,
-          fit: BoxFit.contain,
-        ),
-        const SizedBox(height: 20, width: double.infinity,),
-        const Text(Strings.noNotificationsFounded,
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            )),
-      ],
+    return Align(
+      alignment: Alignment.center,
+      child: ListView(
+        shrinkWrap: true,
+        children: [
+          Column(
+            children: [
+              Lottie.asset(
+                Animations.sadTwo,
+                width: 200,
+                height: 200,
+                fit: BoxFit.contain,
+              ),
+              const SizedBox(height: 20, width: double.infinity,),
+              const Text(Strings.noNotificationsFounded,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  )),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

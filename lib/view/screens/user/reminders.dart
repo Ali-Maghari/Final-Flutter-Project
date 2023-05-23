@@ -50,12 +50,7 @@ class Reminders extends StatelessWidget {
                 return snapshot.data == null || snapshot.data!.isEmpty
                     ? Container(
                   alignment: Alignment.center,
-                  child: ListView(
-                    shrinkWrap: true,
-                    children: const [
-                      EmptyReminderWidget(),
-                    ],
-                  ),
+                  child: const EmptyReminderWidget(),
                 )
                     : ListView(
                   padding: const EdgeInsets.all(8),
