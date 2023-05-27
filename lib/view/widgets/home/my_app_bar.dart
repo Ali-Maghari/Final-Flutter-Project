@@ -27,8 +27,8 @@ class MyAppBar extends StatelessWidget {
                     InkWell(
                       onTap: () {
                         provider.nameInProfileController.text = snapshot.data?.name ?? "";
-                        provider.emailInProfileController.text = snapshot.data?.email ?? "";
-                        provider.passwordInProfileController.text = snapshot.data?.password ?? "";
+                        provider.emailControllerInProfile.text = snapshot.data?.email ?? "";
+                        provider.passwordControllerInProfile.text = snapshot.data?.password ?? "";
                         provider.birthdateInProfileController.text = DateFormat("yyyy-MM-dd").format(DateTime.fromMillisecondsSinceEpoch(snapshot.data!.birthdate ?? 0));
                         Navigator.push(
                           context,

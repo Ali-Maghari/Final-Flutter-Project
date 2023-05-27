@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:my_teeth/model/database/db.dart';
+import 'package:my_teeth/model/home/day.dart';
+import 'package:my_teeth/model/reminder/day_reminder.dart';
 import 'package:my_teeth/model/shared_preferences/shared_utils.dart';
 import '../constants/constants.dart';
 import '../constants/strings.dart';
@@ -12,14 +14,14 @@ import '../view/screens/user/main_screen.dart';
 
 class StateManager with ChangeNotifier {
   final UserManager userManager = UserManager.getUserManager();
-  TextEditingController emailInLoginController = TextEditingController();
-  TextEditingController passwordInLoginController = TextEditingController();
-  TextEditingController emailInRegisterController = TextEditingController();
-  TextEditingController passwordInRegisterController = TextEditingController();
-  TextEditingController nameInRegisterController = TextEditingController();
-  TextEditingController birthdateInRegisterController = TextEditingController();
-  TextEditingController emailInProfileController = TextEditingController();
-  TextEditingController passwordInProfileController = TextEditingController();
+  TextEditingController emailControllerInLogin = TextEditingController();
+  TextEditingController passwordControllerInLogin = TextEditingController();
+  TextEditingController emailControllerInRegister = TextEditingController();
+  TextEditingController passwordControllerInRegister = TextEditingController();
+  TextEditingController nameControllerInRegister = TextEditingController();
+  TextEditingController birthdateControllerInRegister = TextEditingController();
+  TextEditingController emailControllerInProfile = TextEditingController();
+  TextEditingController passwordControllerInProfile = TextEditingController();
   TextEditingController nameInProfileController = TextEditingController();
   TextEditingController birthdateInProfileController = TextEditingController();
   GlobalKey<FormState> loginFormKey = GlobalKey<FormState>();
@@ -37,6 +39,7 @@ class StateManager with ChangeNotifier {
   TextEditingController titleControllerInAddOrEditReminderBottomSheet = TextEditingController();
   TextEditingController descriptionControllerInAddOrEditReminderBottomSheet = TextEditingController();
   List<Reminder> _arrReminders = [];
+  List<Day> arrDays = [];
   String appTheme = SharedUtils.getSharedUtils().getString(SharedPreferencesKeys.appTheme) ?? AppTheme.dynamicAppTheme;
   String appThemeMode = SharedUtils.getSharedUtils().getString(SharedPreferencesKeys.appThemeMode) ?? AppThemeMode.followSystem;
   String appThemeInThemesScreen = SharedUtils.getSharedUtils().getString(SharedPreferencesKeys.appTheme) ?? AppTheme.dynamicAppTheme;
@@ -79,11 +82,11 @@ class StateManager with ChangeNotifier {
 
   Future<void> register(BuildContext context) async {
     User user = User(
-      name: nameInRegisterController.text,
-      email: emailInRegisterController.text,
+      name: nameControllerInRegister.text,
+      email: emailControllerInRegister.text,
       password:
-      passwordInRegisterController.text,
-      birthdate: DateTime.parse(birthdateInRegisterController.text)
+      passwordControllerInRegister.text,
+      birthdate: DateTime.parse(birthdateControllerInRegister.text)
           .millisecondsSinceEpoch,
     );
     user.id = await Db.getDatabaseHelper()
@@ -100,6 +103,8 @@ class StateManager with ChangeNotifier {
     }
     userManager.setCurrentUser(user);
     userManager.login();
+    clearRegisterScreen();
+    SharedUtils.getSharedUtils().setInt(SharedPreferencesKeys.firstTimeToOpenApp, DateTime.now().millisecondsSinceEpoch);
     // clear all previous stack and push home screen
     if (context.mounted) {
       Navigator.of(context).pushAndRemoveUntil(
@@ -113,8 +118,8 @@ class StateManager with ChangeNotifier {
     User? user = await Db.getDatabaseHelper()
         .getUserDataHelper()
         .getUserByEmailAndPassword(
-      email: emailInLoginController.text,
-      password: passwordInLoginController.text,
+      email: emailControllerInLogin.text,
+      password: passwordControllerInLogin.text,
     );
     if (user == null) {
       if (context.mounted) {
@@ -126,6 +131,8 @@ class StateManager with ChangeNotifier {
     }
     userManager.setCurrentUser(user);
     userManager.login();
+    clearLoginScreen();
+    SharedUtils.getSharedUtils().setInt(SharedPreferencesKeys.firstTimeToOpenApp, DateTime.now().millisecondsSinceEpoch);
     if (context.mounted) {
       SharedUtils.getSharedUtils().setBool(
           SharedPreferencesKeys.isUserLoggedIn, true);
@@ -135,13 +142,37 @@ class StateManager with ChangeNotifier {
     }
   }
 
+  void initDate() {
+    int firstTimeToOpen = SharedUtils.getSharedUtils().getInt(SharedPreferencesKeys.firstTimeToOpenApp) ?? 0;
+    DateTime endTimeToOpenDateTime = DateTime.fromMillisecondsSinceEpoch(firstTimeToOpen);
+    DateTime targetDate = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+    endTimeToOpenDateTime = endTimeToOpenDateTime.add(Duration(days: targetDate.add(const Duration(days: 30)).day));
+    int differenceInDays = endTimeToOpenDateTime.difference(DateTime.fromMillisecondsSinceEpoch(firstTimeToOpen)).inDays;
+    DateTime currentDate = DateTime.now();
+    for (int i = 0; i < differenceInDays; i++) {
+      DateTime date = DateTime.fromMillisecondsSinceEpoch(firstTimeToOpen).add(Duration(days: i));
+      arrDays.add(Day(
+        date: date,
+        isSelected: date.day == currentDate.day
+      ));
+    }
+  }
+
+  void setSelectedDay(Day day) {
+    for (int i = 0; i < arrDays.length; i++) {
+      arrDays[i].isSelected = false;
+    }
+    day.isSelected = true;
+    notifyListeners();
+  }
+
   Future<void> updateProfile(BuildContext context) async {
     User? currentUser = await userManager.getCurrentUser();
     User user = User(
       id: currentUser!.id,
       name: nameInProfileController.text,
-      email: emailInProfileController.text,
-      password: passwordInProfileController.text,
+      email: emailControllerInProfile.text,
+      password: passwordControllerInProfile.text,
       birthdate: DateTime.parse(birthdateInProfileController.text)
           .millisecondsSinceEpoch,
       image: currentUser.image,
@@ -188,7 +219,6 @@ class StateManager with ChangeNotifier {
             context: context,
             message: Strings.reminderAlreadyExists,
             animation: Animations.sadThree);
-        Navigator.of(context).pop();
       }
       return;
     }
@@ -200,6 +230,7 @@ class StateManager with ChangeNotifier {
           message: Strings.reminderAddedSuccessfully,
           duration: 1400);
     }
+    clearAddOrEditReminderScreen();
     notifyListeners();
   }
 
@@ -219,7 +250,6 @@ class StateManager with ChangeNotifier {
             message: Strings.reminderAlreadyExists,
             animation: Animations.sadThree,
             duration: 1400);
-        Navigator.of(context).pop();
       }
       return;
     }
@@ -231,6 +261,7 @@ class StateManager with ChangeNotifier {
           message: Strings.reminderUpdatedSuccessfully,
           duration: 1400);
     }
+    clearAddOrEditReminderScreen();
     notifyListeners();
   }
 
@@ -255,6 +286,34 @@ class StateManager with ChangeNotifier {
           duration: 1400);
     }
     notifyListeners();
+  }
+
+  void changeReminderStatus(Reminder reminder) {
+    reminder.isCompleted = !(reminder.isCompleted ?? false);
+    Db.getDatabaseHelper().getDayReminderDataHelper().insertOrDeleteDayReminder(DayReminder(
+      reminderId: reminder.id,
+      time: reminder.time,
+    ));
+    _arrReminders[_arrReminders.indexWhere((element) => element.id == reminder.id)] = reminder;
+    notifyListeners();
+  }
+
+  void clearAddOrEditReminderScreen() {
+    titleControllerInAddOrEditReminderBottomSheet.clear();
+    timeControllerInAddOrEditReminderBottomSheet.clear();
+    descriptionControllerInAddOrEditReminderBottomSheet.clear();
+  }
+
+  void clearLoginScreen() {
+    emailControllerInLogin.clear();
+    passwordControllerInLogin.clear();
+  }
+
+  void clearRegisterScreen() {
+    nameControllerInRegister.clear();
+    emailControllerInRegister.clear();
+    passwordControllerInRegister.clear();
+    birthdateControllerInRegister.clear();
   }
 
   void setAppTheme(String theme) {

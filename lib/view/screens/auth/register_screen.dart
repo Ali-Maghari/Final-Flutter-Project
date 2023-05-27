@@ -57,7 +57,7 @@ class RegisterScreen extends StatelessWidget {
                             color: Theme.of(context).colorScheme.primary)),
                     const SizedBox(height: 36),
                     MaterialInput(const Text(Strings.name),
-                        controller: provider.nameInRegisterController,
+                        controller: provider.nameControllerInRegister,
                         prefixIcon: Icon(Icons.person,
                             color: Theme.of(context).colorScheme.primary),
                         validator: (text) {
@@ -69,7 +69,7 @@ class RegisterScreen extends StatelessWidget {
                     const SizedBox(
                         height: Margins.inputsMarginWhenErrorNotEnabled),
                     MaterialInput(const Text(Strings.email),
-                        controller: provider.emailInRegisterController,
+                        controller: provider.emailControllerInRegister,
                         keyboardType: TextInputType.emailAddress,
                         prefixIcon: Icon(Icons.email,
                             color: Theme.of(context).colorScheme.primary),
@@ -84,7 +84,7 @@ class RegisterScreen extends StatelessWidget {
                     const SizedBox(
                         height: Margins.inputsMarginWhenErrorNotEnabled),
                     MaterialInput(const Text(Strings.password),
-                        controller: provider.passwordInRegisterController,
+                        controller: provider.passwordControllerInRegister,
                         isObscureText:
                             provider.passwordInRegisterObscureTextState,
                         prefixIcon: Icon(Icons.lock,
@@ -113,7 +113,7 @@ class RegisterScreen extends StatelessWidget {
                     const SizedBox(
                         height: Margins.inputsMarginWhenErrorNotEnabled),
                     MaterialInput(const Text(Strings.birthdate),
-                        controller: provider.birthdateInRegisterController,
+                        controller: provider.birthdateControllerInRegister,
                         prefixIcon: IconButton(
                           icon: Icon(Icons.calendar_month,
                               color: Theme.of(context).colorScheme.primary),
@@ -150,6 +150,7 @@ class RegisterScreen extends StatelessWidget {
                                 style: TextStyle(fontSize: 12)),
                             onPressed: () {
                               Navigator.pop(context);
+                              provider.clearRegisterScreen();
                             }),
                       ],
                     ),
@@ -165,14 +166,14 @@ class RegisterScreen extends StatelessWidget {
   void _showDataPicker(BuildContext context, StateManager provider) {
     showDatePicker(
             context: context,
-            initialDate: provider.birthdateInRegisterController.text.isEmpty
+            initialDate: provider.birthdateControllerInRegister.text.isEmpty
                 ? DateTime.now()
-                : DateTime.parse(provider.birthdateInRegisterController.text),
+                : DateTime.parse(provider.birthdateControllerInRegister.text),
             firstDate: DateTime(1900),
             lastDate: DateTime.now())
         .then((value) {
       if (value != null) {
-        provider.birthdateInRegisterController.text =
+        provider.birthdateControllerInRegister.text =
             DateFormat('yyyy-MM-dd').format(value);
       }
     });

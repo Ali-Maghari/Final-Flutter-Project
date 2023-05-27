@@ -42,7 +42,9 @@ class ReminderDetails extends StatelessWidget {
           const SizedBox(height: 20),
           Text(Strings.description, style: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold)),
           const SizedBox(height: 10),
-          Text(reminder.description ?? '', style: TextStyle(color: Theme.of(context).colorScheme.outline)),
+          Text(reminder.description == null || reminder.description!.isEmpty
+              ? Strings.noDescription
+              : reminder.description!, style: TextStyle(color: Theme.of(context).colorScheme.outline)),
           const SizedBox(height: 20),
           Text(Strings.reminderTime, style: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.primary, fontWeight: FontWeight.bold)),
           const SizedBox(height: 10),

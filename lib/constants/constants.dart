@@ -20,6 +20,7 @@ class SharedPreferencesKeys {
   static const loggedUserId = "loggedUserId";
   static const appTheme = "appTheme";
   static const appThemeMode = "appThemeMode";
+  static const firstTimeToOpenApp = "firstTimeToOpenApp";
 }
 
 class Animations {

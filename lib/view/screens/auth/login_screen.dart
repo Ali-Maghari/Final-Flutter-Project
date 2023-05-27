@@ -80,7 +80,7 @@ class LoginScreen extends StatelessWidget {
                                 .primary)),
                     const SizedBox(height: 36),
                     MaterialInput(const Text(Strings.email),
-                        controller: provider.emailInLoginController,
+                        controller: provider.emailControllerInLogin,
                         keyboardType: TextInputType.emailAddress,
                         prefixIcon: Icon(Icons.email,
                             color: Theme
@@ -99,7 +99,7 @@ class LoginScreen extends StatelessWidget {
                         height: Margins.inputsMarginWhenErrorNotEnabled),
                     MaterialInput(
                       const Text(Strings.password),
-                      controller: provider.passwordInLoginController,
+                      controller: provider.passwordControllerInLogin,
                       isObscureText: provider
                           .passwordInLoginObscureTextState,
                       prefixIcon: Icon(Icons.lock,
@@ -166,6 +166,7 @@ class LoginScreen extends StatelessWidget {
                                   builder: (context) => const RegisterScreen(),
                                 ),
                               );
+                              provider.clearLoginScreen();
                             }),
                       ],
                     ),

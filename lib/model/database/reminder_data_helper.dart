@@ -1,6 +1,8 @@
 import 'package:my_teeth/model/reminder/reminder.dart';
 import 'package:sqflite/sqflite.dart';
 
+import 'db.dart';
+
 class ReminderDataHelper {
   final Database _db;
 
@@ -40,7 +42,12 @@ class ReminderDataHelper {
         where: '${Reminder.colUserId}=$userId', orderBy: '${Reminder.colTime} ASC');
     List<Reminder> reminders = [];
     for (Map map in results) {
-      reminders.add(Reminder.fromMap(map));
+      Map resultMap = {
+        Reminder.colIsCompleted: await Db.getDatabaseHelper().getDayReminderDataHelper().getDayReminderByReminderId(map[Reminder.colId]) == null ? 0 : 1,
+      };
+      resultMap.addAll(map);
+      print(resultMap);
+      reminders.add(Reminder.fromMap(resultMap));
     }
     return reminders;
   }

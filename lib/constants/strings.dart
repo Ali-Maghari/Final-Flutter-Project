@@ -70,4 +70,5 @@ class Strings {
   static const String dynamicAppTheme = "Dynamic theme";
   static const String applyTheme = "Apply theme";
   static const String profileUpdatedSuccessfully = "Your profile has been updated successfully";
+  static const String noDescription = "No description";
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:my_teeth/controller/state_manager.dart';
-import 'package:my_teeth/view/widgets/reminders/add_or_edit_reminder.dart';
+import 'package:my_teeth/view/screens/user/add_or_edit_reminder.dart';
 import 'package:my_teeth/view/widgets/reminders/empty_reminder_widget.dart';
 import 'package:my_teeth/view/widgets/reminders/reminder_details.dart';
 import 'package:provider/provider.dart';
@@ -74,12 +74,7 @@ class Reminders extends StatelessWidget {
                             provider.titleControllerInAddOrEditReminderBottomSheet.text = reminder.title ?? '';
                             provider.timeControllerInAddOrEditReminderBottomSheet.text = DateFormat('hh:mm a').format(DateTime.fromMillisecondsSinceEpoch(reminder.time ?? 0));
                             provider.descriptionControllerInAddOrEditReminderBottomSheet.text = reminder.description ?? '';
-                            showModalBottomSheet<void>(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AddOrEditReminder(editedReminder: reminder);
-                              },
-                            );
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddOrEditReminder(editedReminder: reminder)));
                           },
                         );
                       }).toList(),
@@ -94,12 +89,7 @@ class Reminders extends StatelessWidget {
           icon: Icon(Icons.add_outlined,
               color: Theme.of(context).colorScheme.onSurface),
           onPressed: () {
-            showModalBottomSheet<void>(
-              context: context,
-              builder: (BuildContext context) {
-                return const AddOrEditReminder();
-              },
-            );
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => const AddOrEditReminder()));
           },
           label: const Text(Strings.addNewReminder)),
     );

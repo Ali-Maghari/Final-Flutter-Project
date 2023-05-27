@@ -75,7 +75,7 @@ class ProfileScreen extends StatelessWidget {
                   const SizedBox(
                       height: Margins.inputsMarginWhenErrorNotEnabled),
                   MaterialInput(const Text(Strings.email),
-                      controller: provider.emailInProfileController,
+                      controller: provider.emailControllerInProfile,
                       keyboardType: TextInputType.emailAddress,
                       prefixIcon: Icon(Icons.email,
                           color: Theme.of(context).colorScheme.primary),
@@ -90,7 +90,7 @@ class ProfileScreen extends StatelessWidget {
                   const SizedBox(
                       height: Margins.inputsMarginWhenErrorNotEnabled),
                   MaterialInput(const Text(Strings.password),
-                      controller: provider.passwordInProfileController,
+                      controller: provider.passwordControllerInProfile,
                       isObscureText:
                       provider.passwordInProfileObscureTextState,
                       prefixIcon: Icon(Icons.lock,
