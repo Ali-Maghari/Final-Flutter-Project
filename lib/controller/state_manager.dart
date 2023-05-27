@@ -204,6 +204,15 @@ class StateManager with ChangeNotifier {
     return _arrReminders;
   }
 
+  Future<List<Reminder>> getUserRemindersByDay() async {
+    DateTime selectedDay = arrDays.firstWhere((element) => element.isSelected).date;
+    User? currentUser = await userManager.getCurrentUser();
+    _arrReminders = await Db.getDatabaseHelper()
+        .getReminderDataHelper()
+        .getRemindersByUserIdAndDay(currentUser!.id, selectedDay.millisecondsSinceEpoch);
+    return _arrReminders;
+  }
+
   Future<void> addReminder(BuildContext context) async {
     User? currentUser = await userManager.getCurrentUser();
     Reminder reminder = Reminder(
@@ -292,7 +301,7 @@ class StateManager with ChangeNotifier {
     reminder.isCompleted = !(reminder.isCompleted ?? false);
     Db.getDatabaseHelper().getDayReminderDataHelper().insertOrDeleteDayReminder(DayReminder(
       reminderId: reminder.id,
-      time: reminder.time,
+      time: arrDays[arrDays.indexWhere((element) => element.isSelected)].date.millisecondsSinceEpoch,
     ));
     _arrReminders[_arrReminders.indexWhere((element) => element.id == reminder.id)] = reminder;
     notifyListeners();

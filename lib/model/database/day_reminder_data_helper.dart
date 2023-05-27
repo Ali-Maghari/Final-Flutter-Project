@@ -44,6 +44,16 @@ class DayReminderDataHelper {
     return DayReminder.fromMap(results.first);
   }
 
+  Future<List<DayReminder>> getDayRemindersByDate(int date) async {
+    List<Map> results = await _db.query(DayReminder.tableName,
+        where: '${DayReminder.colTime}=$date');
+    List<DayReminder> dayReminders = [];
+    for (Map map in results) {
+      dayReminders.add(DayReminder.fromMap(map));
+    }
+    return dayReminders;
+  }
+
   Future<bool> deleteDayReminder(int? id) async {
     try {
       await _db.delete(DayReminder.tableName, where: '${DayReminder.colId}=$id');

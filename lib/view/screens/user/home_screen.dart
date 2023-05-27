@@ -84,6 +84,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<List<Reminder>> getUserReminders(BuildContext context, StateManager provider) async {
-    return await provider.getUserReminders();
+    return await provider.getUserRemindersByDay();
   }
 }

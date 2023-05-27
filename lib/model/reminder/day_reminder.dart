@@ -34,5 +34,5 @@ class DayReminder {
   static String colReminderId = "reminder_id";
   static String colTime = "time";
   static String createTable =
-      "CREATE TABLE IF NOT EXISTS $tableName ($colId INTEGER PRIMARY KEY AUTOINCREMENT, $colReminderId INTEGER NOT NULL REFERENCES ${Reminder.tableName}(${Reminder.colId}) ON DELETE CASCADE, $colTime INTEGER UNIQUE NOT NULL)";
+      "CREATE TABLE IF NOT EXISTS $tableName ($colId INTEGER PRIMARY KEY AUTOINCREMENT, $colReminderId INTEGER NOT NULL REFERENCES ${Reminder.tableName}(${Reminder.colId}) ON DELETE CASCADE, $colTime INTEGER NOT NULL)";
 }

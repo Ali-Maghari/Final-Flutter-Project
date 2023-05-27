@@ -1,3 +1,4 @@
+import 'package:my_teeth/model/reminder/day_reminder.dart';
 import 'package:my_teeth/model/reminder/reminder.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -46,7 +47,25 @@ class ReminderDataHelper {
         Reminder.colIsCompleted: await Db.getDatabaseHelper().getDayReminderDataHelper().getDayReminderByReminderId(map[Reminder.colId]) == null ? 0 : 1,
       };
       resultMap.addAll(map);
-      print(resultMap);
+      reminders.add(Reminder.fromMap(resultMap));
+    }
+    return reminders;
+  }
+
+  Future<List<Reminder>> getRemindersByUserIdAndDay(int? userId, int date) async {
+    List<Reminder> allReminders = await getRemindersByUserId(userId);
+    List<DayReminder> dayReminders = await Db.getDatabaseHelper().getDayReminderDataHelper().getDayRemindersByDate(date);
+    List<Reminder> reminders = [];
+    for (Reminder reminder in allReminders) {
+      Map resultMap = {};
+      for (DayReminder dayReminder in dayReminders) {
+        if (reminder.id == dayReminder.reminderId) {
+          resultMap = {
+            Reminder.colIsCompleted: 1,
+          };
+        }
+      }
+      resultMap.addAll(reminder.toMap());
       reminders.add(Reminder.fromMap(resultMap));
     }
     return reminders;
