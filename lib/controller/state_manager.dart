@@ -298,7 +298,7 @@ class StateManager with ChangeNotifier {
   }
 
   void changeReminderStatus(Reminder reminder) {
-    reminder.isCompleted = !(reminder.isCompleted ?? false);
+    // reminder.isCompleted = !(reminder.isCompleted ?? false);
     Db.getDatabaseHelper().getDayReminderDataHelper().insertOrDeleteDayReminder(DayReminder(
       reminderId: reminder.id,
       time: arrDays[arrDays.indexWhere((element) => element.isSelected)].date.millisecondsSinceEpoch,

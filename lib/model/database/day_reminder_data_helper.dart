@@ -64,12 +64,23 @@ class DayReminderDataHelper {
   }
 
   Future<bool> insertOrDeleteDayReminder(DayReminder dayReminder) async {
-    DayReminder? existingDayReminder = await getDayReminderByReminderId(dayReminder.reminderId);
+    DayReminder? existingDayReminder = await getDayReminderByReminderIdAndDate(dayReminder.reminderId, dayReminder.time ?? 0);
     if (existingDayReminder != null) {
       return await deleteDayReminder(existingDayReminder.id);
     } else {
       return await insertDayReminder(dayReminder) != -1;
     }
+  }
+
+  Future<DayReminder?> getDayReminderByReminderIdAndDate(
+      int? reminderId, int date) async {
+    List<Map> results = await _db.query(DayReminder.tableName,
+        where:
+        '${DayReminder.colReminderId}=$reminderId AND ${DayReminder.colTime}=$date');
+    if (results.isEmpty) {
+      return null;
+    }
+    return DayReminder.fromMap(results.first);
   }
 
 }
